@@ -4,9 +4,9 @@ class Api::V1::ArtistProfilesController < ApplicationController
 
   def index
     if current_workforce.admin?
-      @artist_profiles = ArtistProfile.include(:workforce).all
+      @artist_profiles = ArtistProfile.includes(:workforce).all
     else
-      @artist_profiles = current_workforce.artist_profile
+      @artist_profiles = current_workforce.artist_profile.present? ? [current_workforce.artist_profile] : []
     end
 
     render json: @artist_profiles,
@@ -15,7 +15,7 @@ class Api::V1::ArtistProfilesController < ApplicationController
 
   def show
     render json: {
-      artist_profile: @artist_profile.as_json.merge(email: current_workforce.email)
+      artist_profile: @artist_profile.as_json.merge(email: @artist_profile.workforce.email)
     },
     status: :ok
   end
@@ -25,7 +25,7 @@ class Api::V1::ArtistProfilesController < ApplicationController
 
     if @artist_profile.update(artist_profile_params)
       render json: {
-        artist_profile: @artist_profile.as_json.merge(email: current_workforce.email)
+        artist_profile: @artist_profile.as_json.merge(email: @artist_profile.workforce.email)
       },
       status: :ok
     else
@@ -38,14 +38,14 @@ class Api::V1::ArtistProfilesController < ApplicationController
   end
 
   def update
-    if @artist_profile.update(artist_profile_params) && current_workforce.update(workforce_params)
+    if @artist_profile.update(artist_profile_params) && @artist_profile.workforce.update(workforce_params)
       render json: {
-        artist_profile: @artist_profile.as_json.merge(email: current_workforce.email)
+        artist_profile: @artist_profile.as_json.merge(email: @artist_profile.workforce.email)
       },
       status: :ok
     else
       render json: {
-        error: @artist_profile.errors.full_messages + current_workforce.errors.full_messages,
+        error: @artist_profile.errors.full_messages + @artist_profile.workforce.errors.full_messages,
         status: 'failed'
       },
       status: :unprocessable_entity
@@ -65,10 +65,9 @@ class Api::V1::ArtistProfilesController < ApplicationController
   private
 
   def set_artist_profile
-    # TODO: Allow admin to access any specific artist_profile
     @artist_profile = ArtistProfile.find(params[:id])
 
-    unless @artist_profile.workforce_id == current_workforce.id
+    unless @artist_profile.workforce_id == current_workforce.id || current_workforce.admin?
       render json: {
         message: "You are not authorized to access this profile"
       },
