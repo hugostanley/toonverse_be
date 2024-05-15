@@ -235,6 +235,7 @@ DEPENDENCIES
   annotate!
   bootsnap
   debug
+  devise (~> 4.9)
   devise_token_auth!
   pg (~> 1.1)
   puma (>= 5.0)
