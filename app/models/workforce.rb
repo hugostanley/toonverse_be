@@ -15,7 +15,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :enum             default("trader"), not null
+#  role                   :enum             default("artist"), not null
 #  tokens                 :json
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
