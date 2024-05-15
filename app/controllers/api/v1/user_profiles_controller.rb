@@ -1,13 +1,19 @@
 class Api::V1::UserProfilesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
+  devise_token_auth_group :member, contains: [:user, :workforce]
+  before_action :authenticate_member!
   before_action :set_user_profile, except: [:index, :create]
 
   # Required Headers: uid, client, access-token, authorization, expiry
 
   # GET /api/v1/user_profiles
   def index
-    #  TODO: modify authorization allowing admin only to access all user profiles
-    @user_profiles = UserProfile.includes(:user).all
+    if current_member.instance_of?(Workforce) && current_member.admin?
+      @user_profiles = UserProfile.includes(:user).all
+    else
+      @user_profiles = [current_member.user_profile] || []
+    end
+
     user_profiles = @user_profiles.map do |profile|
       {
         id: profile.id,
@@ -25,7 +31,7 @@ class Api::V1::UserProfilesController < ApplicationController
   # GET /api/v1/user_profiles/:id
   def show
     render json: {
-      user_profile: @user_profile.as_json.merge(email: current_user.email)
+      user_profile: @user_profile.as_json.merge(email: current_member.email)
     }, status: :ok
   end
 
@@ -38,11 +44,11 @@ class Api::V1::UserProfilesController < ApplicationController
   #       'billing_address': 'billing address'
   #   }
   def create
-    @user_profile = UserProfile.where(user_id: current_user.id).first_or_initialize
+    @user_profile = UserProfile.where(user_id: current_member.id).first_or_initialize
 
     if @user_profile.update(user_profile_params)
       render json: {
-        user_profile: @user_profile.as_json.merge(email: current_user.email)
+        user_profile: @user_profile.as_json.merge(email: current_member.email)
         },
         status: :ok
     else
@@ -69,14 +75,14 @@ class Api::V1::UserProfilesController < ApplicationController
   #   }
   # }
   def update
-    if @user_profile.update(user_profile_params) && current_user.update(user_params)
+    if @user_profile.update(user_profile_params) && current_member.update(user_params)
       render json: {
-        user_profile: @user_profile.as_json.merge(email: current_user.email)
+        user_profile: @user_profile.as_json.merge(email: current_member.email)
         },
         status: :ok
     else
       render json: {
-        error: @user_profile.errors.full_messages + current_user.errors.full_messages,
+        error: @user_profile.errors.full_messages + current_member.errors.full_messages,
         status: 'failed'
         },
         status: :unprocessable_entity
@@ -97,14 +103,24 @@ class Api::V1::UserProfilesController < ApplicationController
 
   private
 
+  def unauthorize_artist
+    if current_member.instance_of?(Workforce) && current_member.artist?
+      render json: {
+        message: "You are not authorized to access this profile"
+      },
+      status: :unauthorized
+    end
+  end
+
   def set_user_profile
     # TODO: Allow admin to access any specific user_profile
     @user_profile = UserProfile.find(params[:id])
 
-    unless @user_profile.user_id == current_user.id
+    unless @user_profile.user_id == current_member.id
       render json: {
-        error: "You are not authorized to access this profile"
-      }, status: :unauthorized
+        message: "You are not authorized to access this profile"
+      },
+      status: :unauthorized
     end
 
   rescue ActiveRecord::RecordNotFound
@@ -119,6 +135,6 @@ class Api::V1::UserProfilesController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation)
   end
 end
