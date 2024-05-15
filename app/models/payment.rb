@@ -3,7 +3,7 @@ class Payment < ApplicationRecord
   belongs_to :item
   has_many :order
 
-  enum status: { pending: 0, paid: 1, cancelled: 2, refunded: 3}
+  enum status: { pending: 'Pending', paid: 'Paid', cancelled: 'Cancelled', refunded: 'Refunded'}
 
   validates :status, presence: true, inclusion: { in: status.keys }
 end

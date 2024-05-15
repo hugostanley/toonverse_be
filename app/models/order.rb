@@ -4,7 +4,7 @@ class Order < ApplicationRecord
   has_one :order_specifications
   has_one :artwork
 
-  enum status: { in_queue: 0, order_in_progress: 1, delivered: 2, completed: 3, cancelled: 4}
+  enum status: { in_queue: 'In Queue', in_progress: 'Order In Progress', delivered: 'Delivered', completed: 'Order Complete', cancelled: 'Cancelled'}
 
   validates :status, presence: true, inclusion: { in: status.keys }
 
