@@ -4,11 +4,11 @@ class Workforce < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-        enum role: { admin: 0, illustrator: 1 }
+  enum role: { admin: 0, illustrator: 1 }
 
-        validates :role, presence: true, inclusion: { in: roles.keys }
+  validates :role, presence: true, inclusion: { in: roles.keys }
 
-        has_one :workforce_profile
-        has_many :job
-        has many :artwork, through :job
+  has_one :workforce_profile
+  has_many :job
+  has many :artwork, through :job
 end
