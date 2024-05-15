@@ -21,7 +21,8 @@
 class UserProfile < ApplicationRecord
   belongs_to :user
 
-  validates :first_name, presence: true, format: { with: /\A[a-zA-Z\-. ]+\z/ }
-  validates :last_name, presence: true, format: { with: /\A[a-zA-Z\-. ]+\z/ }
+  validates :first_name, presence: true, format: { with: /\A[a-zA-Z\-. ]+\z/, message: 'can only contain letters, hyphens, periods, and spaces' }
+  validates :last_name, presence: true, format: { with: /\A[a-zA-Z\-. ]+\z/, message: 'can only contain letters, hyphens, periods, and spaces' }
   validates :billing_address, presence: true
+  validates :user_id, uniqueness: { message: 'User already has a profile' }, on: :create
 end

@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_one :user_profile
+  has_one :user_profile, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
