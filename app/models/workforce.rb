@@ -42,6 +42,8 @@ class Workforce < ActiveRecord::Base
     artist: 'artist'
   }, default: 'artist'
 
+  has_one :artist_profile, dependent: :destroy
+
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
 end

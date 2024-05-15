@@ -10,13 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_15_051316) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_15_063143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "role", ["admin", "artist"]
+
+  create_table "artist_profiles", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.text "bio"
+    t.string "billing_address", null: false
+    t.string "mobile_number"
+    t.decimal "total_earnings", precision: 15, scale: 2, default: "0.0"
+    t.bigint "workforce_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workforce_id"], name: "index_artist_profiles_on_workforce_id"
+  end
 
   create_table "user_profiles", force: :cascade do |t|
     t.string "first_name", null: false
@@ -73,5 +86,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_051316) do
     t.index ["uid", "provider"], name: "index_workforces_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "artist_profiles", "workforces"
   add_foreign_key "user_profiles", "users"
 end

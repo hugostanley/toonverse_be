@@ -42,6 +42,13 @@
 #                                          PUT    /api/v1/user_profiles/:id(.:format)                                                               api/v1/user_profiles#update
 #                                          DELETE /api/v1/user_profiles/:id(.:format)                                                               api/v1/user_profiles#destroy
 #
+#                   api_v1_artist_profiles GET    /api/v1/artist_profiles(.:format)                                                                 api/v1/artist_profiles#index
+#                                          POST   /api/v1/artist_profiles(.:format)                                                                 api/v1/artist_profiles#create
+#                    api_v1_artist_profile GET    /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#show
+#                                          PATCH  /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
+#                                          PUT    /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
+#                                          DELETE /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#destroy
+#
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
@@ -50,6 +57,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :user_profiles, except: [:new, :edit]
+      resources :artist_profiles, except: [:new, :edit]
     end
   end
 
