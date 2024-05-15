@@ -31,7 +31,7 @@ class Api::V1::UserProfilesController < ApplicationController
   # GET /api/v1/user_profiles/:id
   def show
     render json: {
-      user_profile: @user_profile.as_json.merge(email: current_member.email)
+      user_profile: @user_profile.as_json.merge(email: @user_profile.user.email)
     }, status: :ok
   end
 
@@ -48,7 +48,7 @@ class Api::V1::UserProfilesController < ApplicationController
 
     if @user_profile.update(user_profile_params)
       render json: {
-        user_profile: @user_profile.as_json.merge(email: current_member.email)
+        user_profile: @user_profile.as_json.merge(email: @user_profile.user.email)
         },
         status: :ok
     else
@@ -75,14 +75,14 @@ class Api::V1::UserProfilesController < ApplicationController
   #   }
   # }
   def update
-    if @user_profile.update(user_profile_params) && current_member.update(user_params)
+    if @user_profile.update(user_profile_params) && @user_profile.user.update(user_params)
       render json: {
-        user_profile: @user_profile.as_json.merge(email: current_member.email)
+        user_profile: @user_profile.as_json.merge(email: @user_profile.user.email)
         },
         status: :ok
     else
       render json: {
-        error: @user_profile.errors.full_messages + current_member.errors.full_messages,
+        error: @user_profile.errors.full_messages + @user_profile.user.errors.full_messages,
         status: 'failed'
         },
         status: :unprocessable_entity
@@ -116,7 +116,7 @@ class Api::V1::UserProfilesController < ApplicationController
     # TODO: Allow admin to access any specific user_profile
     @user_profile = UserProfile.find(params[:id])
 
-    unless @user_profile.user_id == current_member.id
+    unless @user_profile.user_id == current_member.id || current_member.instance_of?(Workforce) && current_member.admin?
       render json: {
         message: "You are not authorized to access this profile"
       },
@@ -135,6 +135,6 @@ class Api::V1::UserProfilesController < ApplicationController
   end
 
   def user_params
-    params.permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
