@@ -11,7 +11,7 @@ class Api::V1::UserProfilesController < ApplicationController
     if current_member.instance_of?(Workforce) && current_member.admin?
       @user_profiles = UserProfile.includes(:user).all
     else
-      @user_profiles = [current_member.user_profile] || []
+      @user_profiles = current_member.user_profile.present? ? [current_member.user_profile] : []
     end
 
     user_profiles = @user_profiles.map do |profile|
@@ -113,7 +113,6 @@ class Api::V1::UserProfilesController < ApplicationController
   end
 
   def set_user_profile
-    # TODO: Allow admin to access any specific user_profile
     @user_profile = UserProfile.find(params[:id])
 
     unless @user_profile.user_id == current_member.id || current_member.instance_of?(Workforce) && current_member.admin?
@@ -135,6 +134,6 @@ class Api::V1::UserProfilesController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation)
   end
 end
