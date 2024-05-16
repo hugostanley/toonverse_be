@@ -111,6 +111,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_invitable (2.0.9)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     drb (2.2.1)
     erubi (1.12.0)
     globalid (1.2.1)
@@ -236,6 +239,7 @@ DEPENDENCIES
   bootsnap
   debug
   devise (~> 4.9)
+  devise_invitable (~> 2.0)
   devise_token_auth!
   pg (~> 1.1)
   puma (>= 5.0)
