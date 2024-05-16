@@ -26,7 +26,7 @@ class Item < ApplicationRecord
 
   enum :picture_style, {
     vector: 'vector',
-    bobs_burger: 'bobs burger',
+    bobs_burger: 'bobs_burger',
     rick_and_morty: 'rick_and_morty'
   }
 
