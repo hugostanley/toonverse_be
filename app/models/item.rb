@@ -29,4 +29,10 @@ class Item < ApplicationRecord
     bobs_burger: 'bobs burger',
     rick_and_morty: 'rick_and_morty'
   }
+
+  validates :background_url, presence: true
+  validates :number_of_heads, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :picture_style, presence: true
+  validates :ref_photo_url, presence: true
+  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 end
