@@ -20,6 +20,7 @@
 #
 class Item < ApplicationRecord
   belongs_to :user
+  has_one :payment
 
   enum :picture_style, {
   full_body: 'full_body',
