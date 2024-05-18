@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_17_170434) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_18_102610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,9 +18,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_170434) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "art_style", ["bobs_burger", "rick_and_morty", "vector"]
   create_enum "order_status", ["in_queued", "in_progress", "delivered", "completed", "cancelled"]
+  create_enum "payment_status", ["pending", "paid", "cancelled", "refunded"]
   create_enum "picture_style", ["full_body", "half_body", "shoulders_up"]
   create_enum "role", ["admin", "artist"]
-  create_enum "status", ["pending", "paid", "cancelled", "refunded"]
 
   create_table "artist_profiles", force: :cascade do |t|
     t.string "first_name", null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_170434) do
     t.decimal "amount", precision: 15, scale: 2, default: "0.0", null: false
     t.string "remarks"
     t.string "latest_artwork_url", null: false
-    t.enum "status", default: "in_queued", null: false, enum_type: "order_status"
+    t.enum "order_status", default: "in_queued", null: false, enum_type: "order_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["payment_id"], name: "index_orders_on_payment_id"
@@ -87,7 +87,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_170434) do
     t.bigint "user_id", null: false
     t.bigint "item_id", null: false
     t.decimal "item_amount", precision: 15, scale: 2, default: "0.0", null: false
-    t.enum "status", default: "pending", null: false, enum_type: "status"
+    t.enum "payment_status", default: "pending", null: false, enum_type: "payment_status"
     t.string "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

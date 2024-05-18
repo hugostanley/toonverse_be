@@ -5,8 +5,8 @@
 #  id                 :bigint           not null, primary key
 #  amount             :decimal(15, 2)   default(0.0), not null
 #  latest_artwork_url :string           not null
+#  order_status       :enum             default("in_queued"), not null
 #  remarks            :string
-#  status             :enum             default("in_queued"), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  payment_id         :bigint           not null

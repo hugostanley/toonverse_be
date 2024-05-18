@@ -26,7 +26,7 @@ class Payment < ApplicationRecord
   belongs_to :item
   has_many :order
   
-  enum :status,{
+  enum :payment_status,{
     pending: 'pending',
     paid: 'paid',
     cancelled: 'cancelled',
