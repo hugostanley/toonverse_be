@@ -47,6 +47,6 @@ module FinalProjBe
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
     config.middleware.use config.session_store, config.session_options
 
-    config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
+    # config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
   end
 end
