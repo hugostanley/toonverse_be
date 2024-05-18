@@ -4,6 +4,7 @@
 #
 #  id              :bigint           not null, primary key
 #  amount          :decimal(15, 2)   default(0.0)
+#  art_style       :enum             not null
 #  background_url  :string           not null
 #  notes           :string
 #  number_of_heads :integer          default(0), not null
@@ -16,10 +17,6 @@
 # Indexes
 #
 #  index_items_on_user_id  (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (user_id => users.id)
 #
 class Item < ApplicationRecord
   belongs_to :user
