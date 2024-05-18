@@ -33,11 +33,42 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2]
   include DeviseTokenAuth::Concerns::User
 
   has_one :user_profile, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
+
+  def self.from_omniauth(auth)
+    user = where(provider: auth.provider, uid: auth.uid).first_or_initialize do |u|
+      u.email = auth.info.email
+      # u.name = auth.info.name
+      # u.password = Devise.friendly_token[0, 20]
+      u.uid = auth.uid
+      u.provider = auth.provider
+    end
+    user.save!
+    user
+  end
+
+  def create_token
+    # Check if the user already has an active token
+    token = tokens.active.take || tokens.build
+
+    # Set the token expiration (e.g., 2 weeks from now)
+    token.expires_at = 2.weeks.from_now
+
+    # Set the token body
+    token.token_body = {
+      uid:,
+      provider:
+    }
+
+    # Save the token
+    token.save!
+    token
+  end
 end

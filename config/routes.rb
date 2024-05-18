@@ -51,14 +51,19 @@
 #
 
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
   mount_devise_token_auth_for 'Workforce', at: 'w_auth'
+
+  # devise_for :users, at: 'auth', controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+
+  match '/auth/:provider/callback', to: 'users/omniauth_callbacks#google_oauth2', via: %i[get post]
 
   namespace :api do
     namespace :v1 do
-      resources :user_profiles, except: [:new, :edit]
-      resources :artist_profiles, except: [:new, :edit]
+      resources :user_profiles, except: %i[new edit]
+      resources :artist_profiles, except: %i[new edit]
     end
   end
-
 end
