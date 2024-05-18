@@ -50,22 +50,4 @@ class User < ActiveRecord::Base
       user.skip_confirmation! # when you signup a new user, you can decide to skip confirmation
     end
   end
-
-  def create_token
-    # Check if the user already has an active token
-    token = tokens.active.take || tokens.build
-
-    # Set the token expiration (e.g., 2 weeks from now)
-    token.expires_at = 2.weeks.from_now
-
-    # Set the token body
-    token.token_body = {
-      uid:,
-      provider:
-    }
-
-    # Save the token
-    token.save!
-    token
-  end
 end
