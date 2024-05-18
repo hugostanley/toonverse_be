@@ -1,6 +1,7 @@
-class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
-  skip_before_action :verify_authenticity_token, only: [:google_oauth2]
-  def google_oauth2
+require 'json'
+
+class SocialAuthController < ApplicationController
+  def authenticate_social_auth_user
     #  params is the response I receive from the client with the data from the provider about the user
     @user = User.signin_or_create_from_provider(params) # this method add a user who is new or logins an old one
     if @user.persisted?

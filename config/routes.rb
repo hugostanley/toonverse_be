@@ -87,10 +87,9 @@
 #                     rails_direct_uploads POST     /rails/active_storage/direct_uploads(.:format)                                                    active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
-  mount_devise_token_auth_for 'Workforce', at: 'w_auth'
-
-  post 'social_auth/callback', to: 'omniauth_callbacks_controller#authenticate_social_auth_user'
+    mount_devise_token_auth_for 'User', at: 'auth',
+                                        controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+    mount_devise_token_auth_for 'Workforce', at: 'w_auth'
 
   namespace :api do
     namespace :v1 do
