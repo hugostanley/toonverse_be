@@ -46,12 +46,8 @@ group :development do
   gem 'annotate', git: 'https://github.com/ctran/annotate_models.git'
 end
 
-gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_auth'
-
 gem 'devise', '~> 4.9'
-
+gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_auth'
 gem 'omniauth', '~> 2.1'
-
 gem 'omniauth-google-oauth2'
-
-# gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'

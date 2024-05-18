@@ -186,6 +186,9 @@ GEM
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.2)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     orm_adapter (0.5.0)
     pg (1.5.6)
     psych (5.1.2)
@@ -277,6 +280,7 @@ DEPENDENCIES
   devise_token_auth!
   omniauth (~> 2.1)
   omniauth-google-oauth2
+  omniauth-rails_csrf_protection (~> 1.0)
   pg (~> 1.1)
   puma (>= 5.0)
   rack-cors
