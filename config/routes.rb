@@ -32,6 +32,12 @@
 #                                          PUT    /w_auth(.:format)                                                                                 devise_token_auth/registrations#update
 #                                          DELETE /w_auth(.:format)                                                                                 devise_token_auth/registrations#destroy
 #                                          POST   /w_auth(.:format)                                                                                 devise_token_auth/registrations#create
+#              accept_workforce_invitation GET    /w_auth/invitation/accept(.:format)                                                               devise/invitations#edit
+#              remove_workforce_invitation GET    /w_auth/invitation/remove(.:format)                                                               devise/invitations#destroy
+#                 new_workforce_invitation GET    /w_auth/invitation/new(.:format)                                                                  devise/invitations#new
+#                     workforce_invitation PATCH  /w_auth/invitation(.:format)                                                                      devise/invitations#update
+#                                          PUT    /w_auth/invitation(.:format)                                                                      devise/invitations#update
+#                                          POST   /w_auth/invitation(.:format)                                                                      devise/invitations#create
 #                    w_auth_validate_token GET    /w_auth/validate_token(.:format)                                                                  devise_token_auth/token_validations#validate_token
 #                     api_v1_user_profiles GET    /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#index
 #                                          POST   /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#create
