@@ -1,10 +1,10 @@
-class ItemController < ApplicationController
+class ItemsController < ApplicationController
     before_action :authenticate_user!
     before_action :set_item, only: [:show, :update, :destroy]
 
     # GET /items
     def index
-      @items = current_user.items
+      @items = current_user.item
       render json: @items
     end
   
@@ -50,6 +50,7 @@ class ItemController < ApplicationController
         :background_url,
         :number_of_heads,
         :picture_style,
+        :art_style,
         :notes,
         :ref_photo_url,
         :amount

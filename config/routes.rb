@@ -83,8 +83,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :user_profiles, except: [:new, :edit]
       resources :artist_profiles, except: [:new, :edit]
+
     end
   end
-
-  resources :items, defaults: { format: :json }
+      resources :items
+  
 end
