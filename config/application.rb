@@ -42,8 +42,11 @@ module FinalProjBe
     config.api_only = true
 
     # FOR HANDLING SESSION
-    config.session_store :cookie_store, key: '_interslice_session'
+    config.session_store :cookie_store, key: '_interslice_session', domain: '127.0.0.1'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
+
+    # config.action_dispatch.cookies_same_site_protection = :none
+    config.action_controller.default_protect_from_forgery = false if ENV['RAILS_ENV'] == 'development'
   end
 end

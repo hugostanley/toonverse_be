@@ -47,5 +47,5 @@ group :development do
 end
 
 gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_auth'
-
 gem "devise", "~> 4.9"
+gem "omniauth-google-oauth2", "~> 1.1"

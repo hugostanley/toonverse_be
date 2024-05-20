@@ -103,7 +103,7 @@ Devise.setup do |config|
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token
   # from the server. You can disable this option at your own risk.
-  # config.clean_up_csrf_token_on_authentication = true
+  config.clean_up_csrf_token_on_authentication = true
 
   # When false, Devise will not attempt to reload routes on eager load.
   # This can reduce the time taken to boot the app but if your application
@@ -272,6 +272,15 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  # OmniAuth.config.allowed_request_methods = %i[get post]
+  # OmniAuth.config.silence_get_warning = true
+  config.omniauth :google_oauth2,
+    Rails.application.credentials.dig(:oauth, :GOOGLE_CLIENT_ID),
+    Rails.application.credentials.dig(:oauth, :GOOGLE_CLIENT_SECRET),
+    {
+      scope: 'userinfo.email, userinfo.profile',
+      redirect_uri: 'http://localhost:3000/oauth/google_oauth2/'
+    }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
