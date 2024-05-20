@@ -10,7 +10,7 @@ class WebhooksController < ApplicationController
     when 'checkout_session.payment.paid'
       handle_checkout_session(body['data']['attributes']['data'])
     else
-      Rails.logger.info("Unhandled event type: #{event['type']}")
+      Rails.logger.info("Unhandled transaction type: #{body['data']['attributes']['type']}")
     end
     # Need to return 200 according to paymongo docs
     head :ok
@@ -24,7 +24,8 @@ class WebhooksController < ApplicationController
 
     # TODO
     # insert logic here to write to DB payment status/id etc
-    # insert payment.update
+
+    # insert payment.update -> paid
     # insert order.create
   end
 end
