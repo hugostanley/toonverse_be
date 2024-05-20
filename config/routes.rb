@@ -85,6 +85,9 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   mount_devise_token_auth_for 'Workforce', at: 'w_auth'
 
+  # Webhook URL
+  post 'webhooks/paymongo', to: 'webhooks#create'
+
   namespace :api do
     namespace :v1 do
       resources :user_profiles, except: %i[new edit]
