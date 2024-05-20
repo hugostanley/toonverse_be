@@ -2,18 +2,15 @@ class PaymentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_payment, only: %i[show update destroy]
 
-  # GET /payments
   def index
     @payment = current_user.payment
     render json: @payment
   end
 
-  # GET /payments/1
   def show
     render json: @payment
   end
 
-  # POST /payments
   def create
     @payment = current_user.payment.build(item_params)
 
@@ -24,7 +21,6 @@ class PaymentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /payments/1
   def update
     if @payment.update(payment_params)
       render json: @payment
@@ -33,7 +29,6 @@ class PaymentsController < ApplicationController
     end
   end
 
-  # DELETE /payments/1
   def destroy
     @payment.destroy
   end
