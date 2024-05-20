@@ -3,8 +3,8 @@ class PaymentsController < ApplicationController
   before_action :set_payment, only: %i[show update destroy]
 
   def index
-    @payment = current_user.payment
-    render json: @payment
+    @payments = current_user.payments
+    render json: @payments
   end
 
   def show
@@ -12,7 +12,7 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    @payment = current_user.payment.build(item_params)
+    @payment = current_user.payments.build(payment_params)
 
     if @payment.save
       render json: @payment, status: :created, location: @payment
@@ -31,12 +31,13 @@ class PaymentsController < ApplicationController
 
   def destroy
     @payment.destroy
+    render json: { message: 'Payment successfully deleted' }, status: :ok
   end
 
   private
 
   def set_payment
-    @payment = current_user.payment.find(params[:id])
+    @payment = current_user.payments.find(params[:id])
   end
 
   def payment_params
