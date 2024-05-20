@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 
   has_one :user_profile, dependent: :destroy
   has_many :item
-  has_many :payments
+  has_many :payments, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
