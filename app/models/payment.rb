@@ -35,6 +35,7 @@ class Payment < ApplicationRecord
   validates :checkout_session_id, presence: true
 
   after_create :associate_with_item
+  after_update :create_order_if_paid
 
   def associate_with_item
     item_ids.each do |item_id|
