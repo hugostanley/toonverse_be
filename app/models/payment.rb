@@ -22,7 +22,6 @@
 #
 class Payment < ApplicationRecord
   belongs_to :user
-  has_many :items
 
   enum payment_status: {
     pending: 'awaiting_payment_method',

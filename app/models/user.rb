@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_one :user_profile, dependent: :destroy
-  has_many :item
+  has_many :items, dependent: :destroy
   has_many :payments, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
