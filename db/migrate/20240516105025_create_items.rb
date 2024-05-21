@@ -6,6 +6,7 @@ class CreateItems < ActiveRecord::Migration[7.1]
     create_table :items do |t|
       t.references :user, null: false, foreign_key: true
 
+      t.references :payment
       t.string :background_url, null: false
       t.integer :number_of_heads, null: false, default: 0
       t.enum :picture_style, enum_type: 'picture_style', null: false

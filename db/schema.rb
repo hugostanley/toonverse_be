@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_141623) do
 
   create_table "items", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.bigint "payment_id"
     t.string "background_url", null: false
     t.integer "number_of_heads", default: 0, null: false
     t.enum "picture_style", null: false, enum_type: "picture_style"
@@ -44,6 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_141623) do
     t.decimal "amount", precision: 15, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["payment_id"], name: "index_items_on_payment_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 
