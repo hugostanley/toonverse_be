@@ -51,6 +51,12 @@
 #                                          PATCH    /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          PUT      /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          DELETE   /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#destroy
+#                                    items GET      /items(.:format)                                                                                  items#index
+#                                          POST     /items(.:format)                                                                                  items#create
+#                                     item GET      /items/:id(.:format)                                                                              items#show
+#                                          PATCH    /items/:id(.:format)                                                                              items#update
+#                                          PUT      /items/:id(.:format)                                                                              items#update
+#                                          DELETE   /items/:id(.:format)                                                                              items#destroy
 #            rails_postmark_inbound_emails POST     /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST     /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
 #            rails_sendgrid_inbound_emails POST     /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
@@ -80,12 +86,12 @@ Rails.application.routes.draw do
     controllers: { omniauth_callbacks: 'users/omniauth_callbacks'}, omniauth_prefix: :oauth
   mount_devise_token_auth_for 'Workforce', at: 'w_auth', skip: [:omniauth_callbacks]
 
-  match '/auth/sign_in', to: 'devise_token_auth/sessions#create', via: [:post]
-
   namespace :api do
     namespace :v1 do
       resources :user_profiles, except: [:new, :edit]
       resources :artist_profiles, except: [:new, :edit]
     end
   end
+
+  resources :items
 end
