@@ -42,11 +42,10 @@ class PaymentsController < ApplicationController
 
   def payment_params
     params.require(:payment).permit(
-      :user_id,
-      :item_ids,
       :total_amount,
       :payment_status,
-      :checkout_session_id
+      :checkout_session_id,
+      item_ids: []
     )
   end
 end
