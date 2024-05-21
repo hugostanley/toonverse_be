@@ -33,6 +33,7 @@
 #                                          DELETE /w_auth(.:format)                                                                                 devise_token_auth/registrations#destroy
 #                                          POST   /w_auth(.:format)                                                                                 devise_token_auth/registrations#create
 #                    w_auth_validate_token GET    /w_auth/validate_token(.:format)                                                                  devise_token_auth/token_validations#validate_token
+#                        webhooks_paymongo POST   /webhooks/paymongo(.:format)                                                                      webhooks#create
 #                     api_v1_user_profiles GET    /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#index
 #                                          POST   /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#create
 #                      api_v1_user_profile GET    /api/v1/user_profiles/:id(.:format)                                                               api/v1/user_profiles#show
