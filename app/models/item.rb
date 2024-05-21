@@ -11,11 +11,13 @@
 #  picture_style   :enum             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  payment_id      :bigint
 #  user_id         :bigint           not null
 #
 # Indexes
 #
-#  index_items_on_user_id  (user_id)
+#  index_items_on_payment_id  (payment_id)
+#  index_items_on_user_id     (user_id)
 #
 # Foreign Keys
 #
@@ -23,6 +25,7 @@
 #
 class Item < ApplicationRecord
   belongs_to :user
+  belongs_to :payment, optional: true
 
   enum :art_style, {
     vector: 'vector',

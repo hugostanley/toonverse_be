@@ -33,4 +33,13 @@ class Payment < ApplicationRecord
   validates :total_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :payment_status, presence: true
   validates :checkout_session_id, presence: true
+
+  after_create :associate_with_item
+
+  def associate_with_item
+    item_ids.each do |item_id|
+      item = Item.find(item_id)
+      item.update(payment_id: id)
+    end
+  end
 end
