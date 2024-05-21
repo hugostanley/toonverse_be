@@ -42,4 +42,8 @@ class Payment < ApplicationRecord
       item.update(payment_id: id)
     end
   end
+
+  def create_order_if_paid
+    # insert logic here
+  end
 end
