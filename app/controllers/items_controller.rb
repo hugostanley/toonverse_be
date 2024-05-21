@@ -1,4 +1,4 @@
-class ItemController < ApplicationController
+class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: %i[show update destroy]
 
@@ -15,7 +15,7 @@ class ItemController < ApplicationController
 
   # POST /items
   def create
-    @item = current_user.item.build(item_params)
+    @item = current_user.items.build(item_params)
 
     if @item.save
       render json: @item, status: :created, location: @item
@@ -41,7 +41,7 @@ class ItemController < ApplicationController
   private
 
   def set_item
-    @item = current_user.item.find(params[:id])
+    @item = current_user.items.find(params[:id])
   end
 
   def item_params
@@ -49,9 +49,9 @@ class ItemController < ApplicationController
       :user_id,
       :background_url,
       :number_of_heads,
+      :art_style,
       :picture_style,
       :notes,
-      :ref_photo_url,
       :amount
     )
   end
