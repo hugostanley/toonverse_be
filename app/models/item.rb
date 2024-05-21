@@ -4,18 +4,20 @@
 #
 #  id              :bigint           not null, primary key
 #  amount          :decimal(15, 2)   default(0.0)
+#  art_style       :enum             not null
 #  background_url  :string           not null
 #  notes           :string
 #  number_of_heads :integer          default(0), not null
 #  picture_style   :enum             not null
-#  ref_photo_url   :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  payment_id      :bigint
 #  user_id         :bigint           not null
 #
 # Indexes
 #
-#  index_items_on_user_id  (user_id)
+#  index_items_on_payment_id  (payment_id)
+#  index_items_on_user_id     (user_id)
 #
 # Foreign Keys
 #

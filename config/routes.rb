@@ -32,6 +32,12 @@
 #                                          PUT    /w_auth(.:format)                                                                                 devise_token_auth/registrations#update
 #                                          DELETE /w_auth(.:format)                                                                                 devise_token_auth/registrations#destroy
 #                                          POST   /w_auth(.:format)                                                                                 devise_token_auth/registrations#create
+#              accept_workforce_invitation GET    /w_auth/invitation/accept(.:format)                                                               workforce/invitations#edit
+#              remove_workforce_invitation GET    /w_auth/invitation/remove(.:format)                                                               workforce/invitations#destroy
+#                 new_workforce_invitation GET    /w_auth/invitation/new(.:format)                                                                  workforce/invitations#new
+#                     workforce_invitation PATCH  /w_auth/invitation(.:format)                                                                      workforce/invitations#update
+#                                          PUT    /w_auth/invitation(.:format)                                                                      workforce/invitations#update
+#                                          POST   /w_auth/invitation(.:format)                                                                      workforce/invitations#create
 #                    w_auth_validate_token GET    /w_auth/validate_token(.:format)                                                                  devise_token_auth/token_validations#validate_token
 #                     api_v1_user_profiles GET    /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#index
 #                                          POST   /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#create
@@ -45,6 +51,12 @@
 #                                          PATCH  /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          PUT    /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          DELETE /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#destroy
+#                                    items GET    /items(.:format)                                                                                  items#index {:format=>:json}
+#                                          POST   /items(.:format)                                                                                  items#create {:format=>:json}
+#                                     item GET    /items/:id(.:format)                                                                              items#show {:format=>:json}
+#                                          PATCH  /items/:id(.:format)                                                                              items#update {:format=>:json}
+#                                          PUT    /items/:id(.:format)                                                                              items#update {:format=>:json}
+#                                          DELETE /items/:id(.:format)                                                                              items#destroy {:format=>:json}
 #            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
 #            rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
@@ -71,7 +83,7 @@
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
-  mount_devise_token_auth_for 'Workforce', at: 'w_auth'
+  mount_devise_token_auth_for 'Workforce', at: 'w_auth', controllers: { invitations: 'workforce/invitations' }
 
   namespace :api do
     namespace :v1 do
@@ -81,4 +93,6 @@ Rails.application.routes.draw do
   end
 
   resources :items, defaults: { format: :json }
+
+  root to: 'application#root'
 end
