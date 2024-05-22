@@ -15,7 +15,7 @@ class Api::V1::PaymentsController < ApplicationController
     @payment = current_user.payments.build(payment_params)
 
     if @payment.save
-      render json: @payment, status: :created, location: @payment
+      render json: @payment, status: :created
     else
       render json: @payment.errors, status: :unprocessable_entity
     end

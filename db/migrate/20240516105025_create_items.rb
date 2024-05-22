@@ -12,7 +12,7 @@ class CreateItems < ActiveRecord::Migration[7.1]
       t.enum :picture_style, enum_type: 'picture_style', null: false
       t.enum :art_style, enum_type: 'art_style', null: false
       t.string :notes
-      t.decimal :amount, default: 0.00, precision: 15, scale: 2
+      t.decimal :amount, precision: 15, scale: 2
 
       t.timestamps
     end

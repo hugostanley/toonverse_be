@@ -18,7 +18,7 @@ class Api::V1::ItemsController < ApplicationController
     @item = current_user.items.build(item_params)
 
     if @item.save
-      render json: @item, status: :created, location: @item
+      render json: @item, status: :created
     else
       render json: @item.errors, status: :unprocessable_entity
     end
