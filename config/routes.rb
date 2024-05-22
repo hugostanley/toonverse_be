@@ -33,7 +33,6 @@
 #                                          DELETE /w_auth(.:format)                                                                                 devise_token_auth/registrations#destroy
 #                                          POST   /w_auth(.:format)                                                                                 devise_token_auth/registrations#create
 #                    w_auth_validate_token GET    /w_auth/validate_token(.:format)                                                                  devise_token_auth/token_validations#validate_token
-#                        webhooks_paymongo POST   /webhooks/paymongo(.:format)                                                                      webhooks#create
 #                     api_v1_user_profiles GET    /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#index
 #                                          POST   /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#create
 #                      api_v1_user_profile GET    /api/v1/user_profiles/:id(.:format)                                                               api/v1/user_profiles#show
@@ -46,18 +45,19 @@
 #                                          PATCH  /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          PUT    /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          DELETE /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#destroy
-#                                    items GET    /items(.:format)                                                                                  items#index {:format=>:json}
-#                                          POST   /items(.:format)                                                                                  items#create {:format=>:json}
-#                                     item GET    /items/:id(.:format)                                                                              items#show {:format=>:json}
-#                                          PATCH  /items/:id(.:format)                                                                              items#update {:format=>:json}
-#                                          PUT    /items/:id(.:format)                                                                              items#update {:format=>:json}
-#                                          DELETE /items/:id(.:format)                                                                              items#destroy {:format=>:json}
-#                                 payments GET    /payments(.:format)                                                                               payments#index {:format=>:json}
-#                                          POST   /payments(.:format)                                                                               payments#create {:format=>:json}
-#                                  payment GET    /payments/:id(.:format)                                                                           payments#show {:format=>:json}
-#                                          PATCH  /payments/:id(.:format)                                                                           payments#update {:format=>:json}
-#                                          PUT    /payments/:id(.:format)                                                                           payments#update {:format=>:json}
-#                                          DELETE /payments/:id(.:format)                                                                           payments#destroy {:format=>:json}
+#                             api_v1_items GET    /api/v1/items(.:format)                                                                           api/v1/items#index
+#                                          POST   /api/v1/items(.:format)                                                                           api/v1/items#create
+#                              api_v1_item GET    /api/v1/items/:id(.:format)                                                                       api/v1/items#show
+#                                          PATCH  /api/v1/items/:id(.:format)                                                                       api/v1/items#update
+#                                          PUT    /api/v1/items/:id(.:format)                                                                       api/v1/items#update
+#                                          DELETE /api/v1/items/:id(.:format)                                                                       api/v1/items#destroy
+#                          api_v1_payments GET    /api/v1/payments(.:format)                                                                        api/v1/payments#index
+#                                          POST   /api/v1/payments(.:format)                                                                        api/v1/payments#create
+#                           api_v1_payment GET    /api/v1/payments/:id(.:format)                                                                    api/v1/payments#show
+#                                          PATCH  /api/v1/payments/:id(.:format)                                                                    api/v1/payments#update
+#                                          PUT    /api/v1/payments/:id(.:format)                                                                    api/v1/payments#update
+#                                          DELETE /api/v1/payments/:id(.:format)                                                                    api/v1/payments#destroy
+#                 api_v1_webhooks_paymongo POST   /api/v1/webhooks/paymongo(.:format)                                                               api/v1/webhooks#create
 #            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
 #            rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
@@ -86,16 +86,15 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   mount_devise_token_auth_for 'Workforce', at: 'w_auth'
 
-  # Webhook URL
-  post 'webhooks/paymongo', to: 'webhooks#create'
-
   namespace :api do
     namespace :v1 do
       resources :user_profiles, except: %i[new edit]
       resources :artist_profiles, except: %i[new edit]
+      resources :items
+      resources :payments
+
+      # Webhook URL
+      post 'webhooks/paymongo', to: 'webhooks#create'
     end
   end
-
-  resources :items, defaults: { format: :json }
-  resources :payments, defaults: { format: :json }
 end

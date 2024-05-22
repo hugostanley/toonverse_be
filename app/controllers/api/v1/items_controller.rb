@@ -1,4 +1,4 @@
-class ItemsController < ApplicationController
+class Api::V1::ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: %i[show update destroy]
 

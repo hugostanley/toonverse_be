@@ -2,7 +2,7 @@
 # expose the localhost:3000 by running this command `ngrok http http://localhost:3000`
 # go to ngrok endpoints -> get the url then open a webhook connection to paymongo https://developers.paymongo.com/reference/create-a-webhook
 # insert the ngrok url + /webhook/paymongo to the paymongo webhook url
-class WebhooksController < ApplicationController
+class Api::V1::WebhooksController < ApplicationController
   def create
     body = JSON.parse(request.body.read)
 
