@@ -42,7 +42,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_141623) do
     t.enum "picture_style", null: false, enum_type: "picture_style"
     t.enum "art_style", null: false, enum_type: "art_style"
     t.string "notes"
-    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "amount", precision: 15, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["payment_id"], name: "index_items_on_payment_id"

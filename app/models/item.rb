@@ -3,7 +3,7 @@
 # Table name: items
 #
 #  id              :bigint           not null, primary key
-#  amount          :decimal(15, 2)   default(0.0)
+#  amount          :decimal(15, 2)
 #  art_style       :enum             not null
 #  background_url  :string           not null
 #  notes           :string
@@ -43,5 +43,5 @@ class Item < ApplicationRecord
   validates :number_of_heads, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :art_style, presence: true
   validates :picture_style, presence: true
-  validates :amount, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 end
