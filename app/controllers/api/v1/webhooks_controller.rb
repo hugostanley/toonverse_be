@@ -26,7 +26,7 @@ class Api::V1::WebhooksController < ApplicationController
 
   def update_payment_status(attributes)
     cd_id = attributes['data']['attributes']['data']['id']
-    payment_status = attributes['data']['attributes']['data']['attributes']['payments']['status']
+    payment_status = attributes['data']['attributes']['data']['attributes']['payments'][0]['attributes']['status']
 
     @payment = Payment.find_by(checkout_session_id: cd_id)
 
