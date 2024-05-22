@@ -51,8 +51,7 @@ class Api::V1::ItemsController < ApplicationController
       :number_of_heads,
       :art_style,
       :picture_style,
-      :notes,
-      :amount
+      :notes
     )
   end
 end
