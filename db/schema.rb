@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_20_141623) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_22_091014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "art_style", ["bobs_burger", "rick_and_morty", "vector"]
+  create_enum "order_status", ["queued", "in_progress", "delivered", "completed", "cancelled"]
   create_enum "payment_status", ["awaiting_payment_method", "paid", "cancelled"]
   create_enum "picture_style", ["full_body", "half_body", "shoulders_up"]
   create_enum "role", ["admin", "artist"]
@@ -47,6 +48,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_141623) do
     t.datetime "updated_at", null: false
     t.index ["payment_id"], name: "index_items_on_payment_id"
     t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "payment_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "user_id", null: false
+    t.decimal "amount", null: false
+    t.text "remarks"
+    t.text "latest_artwork_url"
+    t.enum "order_status", default: "queued", null: false, enum_type: "order_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_orders_on_item_id"
+    t.index ["payment_id"], name: "index_orders_on_payment_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -118,6 +134,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_141623) do
 
   add_foreign_key "artist_profiles", "workforces"
   add_foreign_key "items", "users"
+  add_foreign_key "orders", "items"
+  add_foreign_key "orders", "payments"
+  add_foreign_key "orders", "users"
   add_foreign_key "payments", "users"
   add_foreign_key "user_profiles", "users"
 end
