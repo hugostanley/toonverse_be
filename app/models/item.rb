@@ -43,5 +43,5 @@ class Item < ApplicationRecord
   validates :number_of_heads, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :art_style, presence: true
   validates :picture_style, presence: true
-  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount, numericality: { greater_than_or_equal_to: 0 }
 end
