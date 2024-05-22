@@ -39,6 +39,9 @@ class Item < ApplicationRecord
     half_body: 'half_body',
     shoulders_up: 'shoulders_up'
   }
+  scope :unpaid_or_pending, -> {
+    left_joins(:payment).where('items.payment_id IS NULL OR payments.payment_status = ?', 'awaiting_payment_method')
+  }
 
   validates :background_url, presence: true
   validates :number_of_heads, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
