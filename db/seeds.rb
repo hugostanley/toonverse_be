@@ -17,18 +17,18 @@ admin.update!(
   confirmed_at: Time.current
 )
 
-3.times do |index|
-  Workforce.create(
-    email: "artist#{index + 1}@email.com",
-    password: "111111",
-    password_confirmation: "111111",
-  )
-end
+# 3.times do |index|
+#   Workforce.create(
+#     email: "artist#{index + 1}@email.com",
+#     password: "111111",
+#     password_confirmation: "111111",
+#   )
+# end
 
-3.times do |index|
-  User.create(
-    email: "user#{index + 1}@email.com",
-    password: "111111",
-    password_confirmation: "111111",
-  )
-end
+# 3.times do |index|
+#   User.create(
+#     email: "user#{index + 1}@email.com",
+#     password: "111111",
+#     password_confirmation: "111111",
+#   )
+# end

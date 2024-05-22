@@ -1,6 +1,6 @@
 <%= t("devise.mailer.invitation_instructions.hello", email: @resource.email) %>
 
-<p><%= t("devise.mailer.invitation_instructions.someone_invited_you", app_name: 'ToonVerse' %></p>
+<p><%= t("devise.mailer.invitation_instructions.someone_invited_you", app_name: 'ToonVerse') %></p>
 
 <%= "#{Rails.application.credentials.dig(Rails.env.to_sym, :frontend_base_url)}/w/invitation/accept?invitation_token=#{@token}" %>
 
