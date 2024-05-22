@@ -38,9 +38,11 @@ class Payment < ApplicationRecord
   after_update :create_order_if_paid
 
   def associate_with_item
-    item_ids.each do |item_id|
-      item = Item.find(item_id)
-      item.update(payment_id: id)
+    transaction do
+      item_ids.each do |item_id|
+        item = Item.find(item_id)
+        item.update(payment_id: id)
+      end
     end
   end
 
