@@ -1,31 +1,7 @@
-# == Schema Information
-#
-# Table name: items
-#
-#  id              :bigint           not null, primary key
-#  amount          :decimal(15, 2)
-#  art_style       :enum             not null
-#  background_url  :string           not null
-#  notes           :string
-#  number_of_heads :integer          default(0), not null
-#  picture_style   :enum             not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  payment_id      :bigint
-#  user_id         :bigint           not null
-#
-# Indexes
-#
-#  index_items_on_payment_id  (payment_id)
-#  index_items_on_user_id     (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (user_id => users.id)
-#
 class Item < ApplicationRecord
   belongs_to :user
   belongs_to :payment, optional: true
+  before_create :calculate_amount
 
   enum :art_style, {
     vector: 'vector',
@@ -44,4 +20,16 @@ class Item < ApplicationRecord
   validates :art_style, presence: true
   validates :picture_style, presence: true
   validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+
+  private
+
+  def calculate_amount
+    self.class.transaction do
+      self.amount = number_of_heads * case picture_style
+                                      when 'full_body' then 100
+                                      when 'half_body' then 75
+                                      when 'shoulders_up' then 50
+                                      end
+    end
+  end
 end
