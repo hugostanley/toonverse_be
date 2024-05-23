@@ -33,6 +33,12 @@
 #                                          DELETE /w_auth(.:format)                                                                                 devise_token_auth/registrations#destroy
 #                                          POST   /w_auth(.:format)                                                                                 devise_token_auth/registrations#create
 #                    w_auth_validate_token GET    /w_auth/validate_token(.:format)                                                                  devise_token_auth/token_validations#validate_token
+#              accept_workforce_invitation GET    /w_auth/invitation/accept(.:format)                                                               workforce/invitations#edit
+#              remove_workforce_invitation GET    /w_auth/invitation/remove(.:format)                                                               workforce/invitations#destroy
+#                 new_workforce_invitation GET    /w_auth/invitation/new(.:format)                                                                  workforce/invitations#new
+#                     workforce_invitation PATCH  /w_auth/invitation(.:format)                                                                      workforce/invitations#update
+#                                          PUT    /w_auth/invitation(.:format)                                                                      workforce/invitations#update
+#                                          POST   /w_auth/invitation(.:format)                                                                      workforce/invitations#create
 #                     api_v1_user_profiles GET    /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#index
 #                                          POST   /api/v1/user_profiles(.:format)                                                                   api/v1/user_profiles#create
 #                      api_v1_user_profile GET    /api/v1/user_profiles/:id(.:format)                                                               api/v1/user_profiles#show
@@ -90,7 +96,10 @@
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
-  mount_devise_token_auth_for 'Workforce', at: 'w_auth'
+  mount_devise_token_auth_for 'Workforce', at: 'w_auth', skip: [:invitations]
+
+  devise_for :workforce, path: "w_auth", only: [:invitations],
+    controllers: { invitations: 'workforce/invitations' }
 
   namespace :api do
     namespace :v1 do

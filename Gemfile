@@ -44,8 +44,9 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'annotate', git: 'https://github.com/ctran/annotate_models.git'
+  gem 'letter_opener'
 end
 
 gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_auth'
-
 gem "devise", "~> 4.9"
+gem "devise_invitable", "~> 2.0"

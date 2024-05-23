@@ -4,12 +4,28 @@ class Api::V1::ArtistProfilesController < ApplicationController
 
   def index
     if current_workforce.admin?
-      @artist_profiles = ArtistProfile.includes(:workforce).all
+      @artist_profiles = ArtistProfile.includes(:workforce).all.order(created_at: :desc)
     else
       @artist_profiles = current_workforce.artist_profile.present? ? [current_workforce.artist_profile] : []
     end
 
-    render json: @artist_profiles,
+    workforce_profiles = @artist_profiles.map do |profile|
+      {
+        id: profile.id,
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+        email: profile.workforce.email,
+        billing_address: profile.billing_address,
+        mobile_number: profile.mobile_number,
+        bio: profile.bio,
+        total_earnings: profile.total_earnings,
+        workforce_id: profile.workforce_id,
+        created_at: profile.created_at,
+        updated_at: profile.updated_at
+      }
+    end
+
+    render json: workforce_profiles,
     status: :ok
   end
 
