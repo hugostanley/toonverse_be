@@ -5,12 +5,12 @@ class Api::V1::ItemsController < ApplicationController
   # GET /items
   def index
     @items = current_user.items.unpaid_or_pending
-    render json: @items
+    render json: @items.map { |item| item_with_image_url(item) }
   end
 
   # GET /items/1
   def show
-    render json: @item
+    render json: item_with_image_url(@item)
   end
 
   # POST /items
@@ -18,7 +18,7 @@ class Api::V1::ItemsController < ApplicationController
     @item = current_user.items.build(item_params)
 
     if @item.save
-      render json: @item, status: :created
+      render json: item_with_image_url(@item), status: :created
     else
       render json: @item.errors, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class Api::V1::ItemsController < ApplicationController
   # PATCH/PUT /items/1
   def update
     if @item.update(item_params)
-      render json: @item
+      render json: item_with_image_url(@item)
     else
       render json: @item.errors, status: :unprocessable_entity
     end
@@ -51,7 +51,14 @@ class Api::V1::ItemsController < ApplicationController
       :number_of_heads,
       :art_style,
       :picture_style,
-      :notes
+      :notes,
+      :image
+    )
+  end
+
+  def item_with_image_url(item)
+    item.as_json.merge(
+      image_url: item.image.attached? ? url_for(item.image) : nil
     )
   end
 end

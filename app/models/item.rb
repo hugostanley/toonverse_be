@@ -27,6 +27,7 @@ class Item < ApplicationRecord
   belongs_to :user
   belongs_to :payment, optional: true
   has_one :order
+  has_one_attached :image
 
   enum :art_style, {
     vector: 'vector',
