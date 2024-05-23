@@ -27,6 +27,8 @@ class Item < ApplicationRecord
   belongs_to :user
   belongs_to :payment, optional: true
   has_one :order
+  has_one_attached :image
+  before_create :calculate_amount
 
   enum :art_style, {
     vector: 'vector',
@@ -48,4 +50,16 @@ class Item < ApplicationRecord
   validates :art_style, presence: true
   validates :picture_style, presence: true
   validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+
+  private
+
+  def calculate_amount
+    self.class.transaction do
+      self.amount = number_of_heads * case picture_style
+                                      when 'full_body' then 100
+                                      when 'half_body' then 75
+                                      when 'shoulders_up' then 50
+                                      end
+    end
+  end
 end
