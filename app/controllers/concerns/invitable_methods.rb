@@ -20,4 +20,12 @@ module InvitableMethods
     end
     mapping.to
   end
+
+  def validate_uniqueness
+    email = invite_params[:email]
+    return unless Workforce.exists?(email:)
+
+    self.resource = resource_class.new(invite_params)
+    render json: { error: 'Email is already taken', errors: resource.errors.full_messages }, status: :unprocessable_entity
+  end
 end

@@ -1,15 +1,12 @@
 class Workforce::InvitationsController < Devise::InvitationsController
   include InvitableMethods
   respond_to :json
-  before_action :authenticate_workforce!, only: [:create]
+  before_action :authenticate_workforce!, :validate_uniqueness, only: [:create]
 
+  # POST /resource/invitation
   def create
     Workforce.invite!(invite_params, current_user)
-    render json: { success: ['Workforce created.'] }, status: :created
-  end
-
-  def edit
-    redirect_to "#{client_api_url}?invitation_token=#{params[:invitation_token]}"
+    render json: { success: ['Workforce invited.'] }, status: :created
   end
 
   # PUT /resource/invitation
