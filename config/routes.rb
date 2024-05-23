@@ -51,12 +51,25 @@
 #                                          PATCH  /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          PUT    /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#update
 #                                          DELETE /api/v1/artist_profiles/:id(.:format)                                                             api/v1/artist_profiles#destroy
-#                                    items GET    /items(.:format)                                                                                  items#index {:format=>:json}
-#                                          POST   /items(.:format)                                                                                  items#create {:format=>:json}
-#                                     item GET    /items/:id(.:format)                                                                              items#show {:format=>:json}
-#                                          PATCH  /items/:id(.:format)                                                                              items#update {:format=>:json}
-#                                          PUT    /items/:id(.:format)                                                                              items#update {:format=>:json}
-#                                          DELETE /items/:id(.:format)                                                                              items#destroy {:format=>:json}
+#                             api_v1_items GET    /api/v1/items(.:format)                                                                           api/v1/items#index
+#                                          POST   /api/v1/items(.:format)                                                                           api/v1/items#create
+#                              api_v1_item GET    /api/v1/items/:id(.:format)                                                                       api/v1/items#show
+#                                          PATCH  /api/v1/items/:id(.:format)                                                                       api/v1/items#update
+#                                          PUT    /api/v1/items/:id(.:format)                                                                       api/v1/items#update
+#                                          DELETE /api/v1/items/:id(.:format)                                                                       api/v1/items#destroy
+#                          api_v1_payments GET    /api/v1/payments(.:format)                                                                        api/v1/payments#index
+#                                          POST   /api/v1/payments(.:format)                                                                        api/v1/payments#create
+#                           api_v1_payment GET    /api/v1/payments/:id(.:format)                                                                    api/v1/payments#show
+#                                          PATCH  /api/v1/payments/:id(.:format)                                                                    api/v1/payments#update
+#                                          PUT    /api/v1/payments/:id(.:format)                                                                    api/v1/payments#update
+#                                          DELETE /api/v1/payments/:id(.:format)                                                                    api/v1/payments#destroy
+#                            api_v1_orders GET    /api/v1/orders(.:format)                                                                          api/v1/orders#index
+#                                          POST   /api/v1/orders(.:format)                                                                          api/v1/orders#create
+#                             api_v1_order GET    /api/v1/orders/:id(.:format)                                                                      api/v1/orders#show
+#                                          PATCH  /api/v1/orders/:id(.:format)                                                                      api/v1/orders#update
+#                                          PUT    /api/v1/orders/:id(.:format)                                                                      api/v1/orders#update
+#                                          DELETE /api/v1/orders/:id(.:format)                                                                      api/v1/orders#destroy
+#                 api_v1_webhooks_paymongo POST   /api/v1/webhooks/paymongo(.:format)                                                               api/v1/webhooks#create
 #            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
 #            rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
@@ -90,10 +103,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :user_profiles, except: [:new, :edit]
-      resources :artist_profiles, except: [:new, :edit]
+      resources :user_profiles, except: %i[new edit]
+      resources :artist_profiles, except: %i[new edit]
+      resources :items
+      resources :payments
+      resources :orders
+
+      # Webhook URL
+      post 'webhooks/paymongo', to: 'webhooks#create'
     end
   end
-
-  resources :items, defaults: { format: :json }
 end

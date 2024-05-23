@@ -1,4 +1,4 @@
-require "active_support/core_ext/integer/time"
+require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -19,10 +19,10 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -56,7 +56,6 @@ Rails.application.configure do
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
-
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
@@ -71,6 +70,7 @@ Rails.application.configure do
 
   # Devise setup
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.hosts << /[a-z0-9-]+\.ngrok-free\.app/
   # URL helpers for mailers
   config.after_initialize do
     Rails.application.routes.default_url_options[:host] = { host: 'localhost', port: 5173 }
