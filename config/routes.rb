@@ -61,7 +61,10 @@
 
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
-  mount_devise_token_auth_for 'Workforce', at: 'w_auth', controllers: { invitations: 'workforce/invitations' }
+  mount_devise_token_auth_for 'Workforce', at: 'w_auth', skip: [:invitations]
+
+  devise_for :workforce, path: "w_auth", only: [:invitations],
+    controllers: { invitations: 'workforce/invitations' }
 
   namespace :api do
     namespace :v1 do
