@@ -4,7 +4,7 @@ class Api::V1::ItemsController < ApplicationController
 
   # GET /items
   def index
-    @items = current_user.items
+    @items = current_user.items.unpaid_or_pending
     render json: @items
   end
 

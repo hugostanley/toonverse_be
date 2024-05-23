@@ -26,6 +26,7 @@
 class Item < ApplicationRecord
   belongs_to :user
   belongs_to :payment, optional: true
+  has_one :order
 
   enum :art_style, {
     vector: 'vector',
@@ -37,6 +38,9 @@ class Item < ApplicationRecord
     full_body: 'full_body',
     half_body: 'half_body',
     shoulders_up: 'shoulders_up'
+  }
+  scope :unpaid_or_pending, -> {
+    left_joins(:payment).where('items.payment_id IS NULL OR payments.payment_status = ?', 'awaiting_payment_method')
   }
 
   validates :background_url, presence: true

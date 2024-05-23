@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       resources :artist_profiles, except: %i[new edit]
       resources :items
       resources :payments
+      resources :orders
 
       # Webhook URL
       post 'webhooks/paymongo', to: 'webhooks#create'

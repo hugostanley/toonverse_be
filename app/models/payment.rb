@@ -22,6 +22,7 @@
 #
 class Payment < ApplicationRecord
   belongs_to :user
+  has_many :orders
 
   enum payment_status: {
     pending: 'awaiting_payment_method',
@@ -47,6 +48,19 @@ class Payment < ApplicationRecord
   end
 
   def create_order_if_paid
-    # insert logic here
+    return unless saved_change_to_payment_status? && payment_status == 'paid'
+
+    transaction do
+      item_ids.each do |item_id|
+        item = Item.find(item_id)
+        Order.create!(
+          item_id: item.id,
+          payment_id: id,
+          user_id:,
+          amount: item.amount,
+          order_status: 'queued'
+        )
+      end
+    end
   end
 end
