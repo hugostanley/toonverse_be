@@ -16,8 +16,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_074413) do
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "art_style", ["bobs_burger", "rick_and_morty", "vector"]
-  create_enum "picture_style", ["full_body", "half_body", "shoulders_up"]
   create_enum "role", ["admin", "artist"]
 
   create_table "artist_profiles", force: :cascade do |t|
@@ -31,21 +29,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_074413) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["workforce_id"], name: "index_artist_profiles_on_workforce_id"
-  end
-
-  create_table "items", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "payment_id"
-    t.string "background_url", null: false
-    t.integer "number_of_heads", default: 0, null: false
-    t.enum "picture_style", null: false, enum_type: "picture_style"
-    t.enum "art_style", null: false, enum_type: "art_style"
-    t.string "notes"
-    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["payment_id"], name: "index_items_on_payment_id"
-    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "user_profiles", force: :cascade do |t|
@@ -115,6 +98,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_074413) do
   end
 
   add_foreign_key "artist_profiles", "workforces"
-  add_foreign_key "items", "users"
   add_foreign_key "user_profiles", "users"
 end
