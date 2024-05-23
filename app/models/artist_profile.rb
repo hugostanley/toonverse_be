@@ -29,5 +29,5 @@ class ArtistProfile < ApplicationRecord
   validates :mobile_number, format: { with: /\A[\d+\-]+\z/, message: 'can only contain numbers, hyphens, and plus signs'}
   validates :billing_address, presence: true
   validates :bio, length: { in: 0..120 }
-  # validates :workforce_id, uniqueness: { message: 'Artist already has a profile' }, on: :create
+
 end

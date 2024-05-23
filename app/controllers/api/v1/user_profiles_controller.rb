@@ -9,7 +9,7 @@ class Api::V1::UserProfilesController < ApplicationController
   # GET /api/v1/user_profiles
   def index
     if current_member.instance_of?(Workforce) && current_member.admin?
-      @user_profiles = UserProfile.includes(:user).all
+      @user_profiles = UserProfile.includes(:user).all.order(created_at: :desc)
     else
       @user_profiles = current_member.user_profile.present? ? [current_member.user_profile] : []
     end
