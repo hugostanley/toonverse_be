@@ -13,13 +13,13 @@ class Api::V1::JobsController < ApplicationController
       {
         id: job.id,
         order_id: job.order_id,
-        workforce_id: job.workforce_id,
+        workforce_id: job.order.workforce_id,
         claimed_at: job.claimed_at,
         commission: job.commission,
         created_at: job.created_at,
         updated_at: job.updated_at,
         status: job.order.order_status,
-        email: job.workforce.email
+        email: job.order.workforce.email
       }
     end
 
@@ -28,7 +28,9 @@ class Api::V1::JobsController < ApplicationController
 
   def show
     render json: {
-             job: @job.as_json.merge(email: @job.workforce.email, status: @job.order.order_status)
+             job: @job.as_json.merge(email: @job.order.workforce.email,
+                                     status: @job.order.order_status,
+                                     workforce_id: @job.order.workforce_id)
            },
            status: :ok
   end
@@ -49,13 +51,5 @@ class Api::V1::JobsController < ApplicationController
              error: 'Artist profile not found'
            },
            status: :not_found
-  end
-
-  def job_params
-    params.require(:job).permit(:first_name, :last_name, :billing_address, :bio, :mobile_number)
-  end
-
-  def jobs_params
-    params.permit(:email, :password, :password_confirmation)
   end
 end
