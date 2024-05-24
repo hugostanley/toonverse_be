@@ -29,6 +29,8 @@ class Order < ApplicationRecord
   belongs_to :payment
   belongs_to :item
   belongs_to :user
+  belongs_to :workforce
+  has_one :job, dependent: :destroy
 
   enum :order_status, {
     queued: 'queued',
@@ -40,4 +42,7 @@ class Order < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :order_status, presence: true
+
+  # TODO
+  # after_update :create_job_references_to_workforce_id
 end
