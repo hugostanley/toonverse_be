@@ -41,7 +41,7 @@ class Item < ApplicationRecord
     half_body: 'half_body',
     shoulders_up: 'shoulders_up'
   }
-  scope :unpaid_or_pending, -> {
+  scope :unpaid_or_pending, lambda {
     left_joins(:payment).where('items.payment_id IS NULL OR payments.payment_status = ?', 'awaiting_payment_method')
   }
 
@@ -55,10 +55,11 @@ class Item < ApplicationRecord
 
   def calculate_amount
     self.class.transaction do
+      base_amount = 100
       self.amount = number_of_heads * case picture_style
-                                      when 'full_body' then 100
-                                      when 'half_body' then 75
-                                      when 'shoulders_up' then 50
+                                      when 'full_body' then 1 * base_amount
+                                      when 'half_body' then 0.70 * base_amount
+                                      when 'shoulders_up' then 0.5 * base_amount
                                       end
     end
   end
