@@ -45,6 +45,8 @@ class Order < ApplicationRecord
 
   after_update :create_job
 
+  private
+
   def create_job
     return unless saved_change_to_order_status? && order_status == 'in_progress'
 

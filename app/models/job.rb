@@ -19,7 +19,4 @@
 #
 class Job < ApplicationRecord
   belongs_to :order
-
-  # TODO
-  # before_create: compute_commision
 end
