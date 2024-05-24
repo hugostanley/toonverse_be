@@ -43,6 +43,14 @@ class Order < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :order_status, presence: true
 
-  # TODO
-  # after_update :create_job_references_to_workforce_id
+  after_update :create_job
+
+  def create_job
+    return unless saved_change_to_order_status? && order_status == 'in_progress'
+
+    commission = order.amount * 0.7
+    transaction do
+      create_job(claimed_at: Time.current, commission:)
+    end
+  end
 end
