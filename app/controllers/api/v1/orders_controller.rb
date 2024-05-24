@@ -45,6 +45,7 @@ class Api::V1::OrdersController < ApplicationController
       :total_amount,
       :order_status,
       :checkout_session_id,
+      :workforce_id,
       item_ids: []
     )
   end
