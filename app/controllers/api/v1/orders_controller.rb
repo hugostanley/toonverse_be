@@ -1,14 +1,22 @@
 class Api::V1::OrdersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_order, only: %i[show update destroy]
+  before_action :authenticate_user!, unless: :workforce_signed_in?
+  before_action :authenticate_workforce!, unless: :user_signed_in?
+  before_action :set_order, only: %i[show update]
+  before_action :authorize_admin!, only: :destroy
 
   def index
-    @orders = current_user.orders
-    render json: @orders
+    if @current_user
+      @orders = @current_user.orders.includes(:item)
+      render json: @orders.to_json(include: :item)
+    else
+      @orders = Order.includes(:item).all
+      orders = @orders.map { |order| format_order(order) }
+      render json: orders
+    end
   end
 
   def show
-    render json: @order
+    render json: format_order(@order)
   end
 
   def create
@@ -37,7 +45,15 @@ class Api::V1::OrdersController < ApplicationController
   private
 
   def set_order
-    @order = current_user.orders.find(params[:id])
+    if @current_user
+      @order = current_user.orders.find_by(id: params[:id])
+    elsif @current_workforce
+      @order = Order.find_by(id: params[:id])
+    end
+
+    return if @order
+
+    render json: { error: 'Order not found' }, status: :not_found
   end
 
   def order_params
@@ -48,5 +64,30 @@ class Api::V1::OrdersController < ApplicationController
       :workforce_id,
       item_ids: []
     )
+  end
+
+  def format_order(order)
+    {
+      id: order.id,
+      item_id: order.item_id,
+      payment_id: order.payment_id,
+      amount: order.amount,
+      order_status: order.order_status,
+      workforce_id: order.workforce_id,
+      created_at: order.created_at,
+      background_url: order.item&.background_url,
+      number_of_heads: order.item&.number_of_heads,
+      picture_style: order.item&.picture_style,
+      art_style: order.item&.art_style,
+      notes: order.item&.notes
+    }
+  end
+
+  def authorize_admin!
+    if @current_workforce && @current_workforce.role != 'admin'
+      render json: { error: 'Forbidden' }, status: :forbidden
+    elsif !@current_workforce
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
   end
 end
