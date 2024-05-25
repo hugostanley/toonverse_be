@@ -1,12 +1,12 @@
 class Api::V1::JobsController < ApplicationController
   before_action :authenticate_workforce!
-  before_action :set_job, except: %i[index create]
+  before_action :set_job, only: :show
 
   def index
     @jobs = if current_workforce.admin?
-              Jobs.includes(:order, :workforce).all.order(created_at: :desc)
+              Jobs.all.order(created_at: :desc).includes(:order, :workforce)
             else
-              current_workforce.jobs ? [current_workforce.jobs] : []
+              current_workforce.jobs.order(created_at: :desc).includes(:order)
             end
 
     jobs = @jobs.map do |job|
@@ -38,9 +38,9 @@ class Api::V1::JobsController < ApplicationController
   private
 
   def set_job
-    @job = Job.includes(:workforce, :order).find(params[:id])
+    @job = Job.find(params[:id])
 
-    unless @job.workforce_id == current_workforce.id || current_workforce.admin?
+    unless @job.order.workforce_id == current_workforce.id || current_workforce.admin?
       render json: {
                message: 'You are not authorized to access this profile'
              },
