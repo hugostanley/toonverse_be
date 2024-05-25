@@ -79,7 +79,8 @@ class Api::V1::OrdersController < ApplicationController
       number_of_heads: order.item&.number_of_heads,
       picture_style: order.item&.picture_style,
       art_style: order.item&.art_style,
-      notes: order.item&.notes
+      notes: order.item&.notes,
+      reference_image: order.item.image.attached? ? url_for(order.item&.image) : ''
     }
   end
 
