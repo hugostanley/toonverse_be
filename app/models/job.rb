@@ -19,4 +19,5 @@
 #
 class Job < ApplicationRecord
   belongs_to :order
+  belongs_to :workforce
 end
