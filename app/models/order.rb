@@ -50,9 +50,13 @@ class Order < ApplicationRecord
   def create_job
     return unless saved_change_to_order_status? && order_status == 'in_progress'
 
-    commission = order.amount * 0.7
+    commission = amount * 0.7
     transaction do
-      create_job(claimed_at: Time.current, commission:)
+      Job.create!(
+        order_id: id,
+        claimed_at: Time.current,
+        commission:
+      )
     end
   end
 end
