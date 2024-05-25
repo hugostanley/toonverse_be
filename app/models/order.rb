@@ -29,7 +29,7 @@ class Order < ApplicationRecord
   belongs_to :payment
   belongs_to :item
   belongs_to :user
-  belongs_to :workforce
+  belongs_to :workforce, optional: true
   has_one :job, dependent: :destroy
 
   enum :order_status, {

@@ -60,6 +60,7 @@ class Payment < ApplicationRecord
           payment_id: id,
           user_id:,
           amount: item.amount,
+          workforce_id: nil,
           order_status: 'queued'
         )
       end
