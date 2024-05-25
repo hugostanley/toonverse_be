@@ -30,7 +30,7 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def update
-    if @order.update(order_params)
+    if @order.update!(order_params)
       render json: @order
     else
       render json: @order.errors, status: :unprocessable_entity
