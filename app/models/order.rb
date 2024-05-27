@@ -12,18 +12,21 @@
 #  item_id            :bigint           not null
 #  payment_id         :bigint           not null
 #  user_id            :bigint           not null
+#  workforce_id       :bigint
 #
 # Indexes
 #
-#  index_orders_on_item_id     (item_id)
-#  index_orders_on_payment_id  (payment_id)
-#  index_orders_on_user_id     (user_id)
+#  index_orders_on_item_id       (item_id)
+#  index_orders_on_payment_id    (payment_id)
+#  index_orders_on_user_id       (user_id)
+#  index_orders_on_workforce_id  (workforce_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (item_id => items.id)
 #  fk_rails_...  (payment_id => payments.id)
 #  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (workforce_id => workforces.id)
 #
 class Order < ApplicationRecord
   belongs_to :payment

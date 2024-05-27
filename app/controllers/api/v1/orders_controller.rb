@@ -6,10 +6,10 @@ class Api::V1::OrdersController < ApplicationController
 
   def index
     if @current_user
-      @orders = @current_user.orders.includes(:item)
+      @orders = @current_user.orders.includes(:item).order(created_at: :desc)
       render json: @orders.to_json(include: :item)
     else
-      @orders = Order.includes(:item).all
+      @orders = Order.includes(:item).all.order(created_at: :desc)
       orders = @orders.map { |order| format_order(order) }
       render json: orders
     end
