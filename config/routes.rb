@@ -71,6 +71,12 @@
 #                                          DELETE /api/v1/orders/:id(.:format)                                                                      api/v1/orders#destroy
 #                              api_v1_jobs GET    /api/v1/jobs(.:format)                                                                            api/v1/jobs#index
 #                               api_v1_job GET    /api/v1/jobs/:id(.:format)                                                                        api/v1/jobs#show
+#                          api_v1_artworks GET    /api/v1/artworks(.:format)                                                                        api/v1/artworks#index
+#                                          POST   /api/v1/artworks(.:format)                                                                        api/v1/artworks#create
+#                           api_v1_artwork GET    /api/v1/artworks/:id(.:format)                                                                    api/v1/artworks#show
+#                                          PATCH  /api/v1/artworks/:id(.:format)                                                                    api/v1/artworks#update
+#                                          PUT    /api/v1/artworks/:id(.:format)                                                                    api/v1/artworks#update
+#                                          DELETE /api/v1/artworks/:id(.:format)                                                                    api/v1/artworks#destroy
 #                 api_v1_webhooks_paymongo POST   /api/v1/webhooks/paymongo(.:format)                                                               api/v1/webhooks#create
 #            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
@@ -111,6 +117,7 @@ Rails.application.routes.draw do
       resources :payments
       resources :orders
       resources :jobs, only: %i[index show]
+      resources :artworks
 
       # Webhook URL
       post 'webhooks/paymongo', to: 'webhooks#create'
