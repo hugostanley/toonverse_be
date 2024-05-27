@@ -40,6 +40,9 @@ class Order < ApplicationRecord
 
   after_update :create_job
 
+  # TODO
+  # after_update :finish_job
+
   enum :order_status, {
     queued: 'queued',
     in_progress: 'in_progress',
@@ -62,4 +65,15 @@ class Order < ApplicationRecord
       )
     end
   end
+
+  # TODO: CHECK IF WORKING
+  # def finish_job
+  #   return unless saved_change_to_order_status? && order_status == 'completed'
+
+  #   transaction do
+  #     ArtistProfile.update!(
+  #       total_earnings: total_earnings += (amount * 0.7)
+  #     )
+  #   end
+  # end
 end
