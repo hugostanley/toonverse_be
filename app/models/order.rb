@@ -2,17 +2,16 @@
 #
 # Table name: orders
 #
-#  id                 :bigint           not null, primary key
-#  amount             :decimal(, )      not null
-#  latest_artwork_url :text
-#  order_status       :enum             default("queued"), not null
-#  remarks            :text
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  item_id            :bigint           not null
-#  payment_id         :bigint           not null
-#  user_id            :bigint           not null
-#  workforce_id       :bigint
+#  id           :bigint           not null, primary key
+#  amount       :decimal(, )      not null
+#  order_status :enum             default("queued"), not null
+#  remarks      :text
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  item_id      :bigint           not null
+#  payment_id   :bigint           not null
+#  user_id      :bigint           not null
+#  workforce_id :bigint
 #
 # Indexes
 #
@@ -34,6 +33,12 @@ class Order < ApplicationRecord
   belongs_to :user
   belongs_to :workforce, optional: true
   has_one :job, dependent: :destroy
+  has_many :artworks, through: :jobs, dependent: :destroy
+
+  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :order_status, presence: true
+
+  after_update :create_job
 
   enum :order_status, {
     queued: 'queued',
@@ -42,11 +47,6 @@ class Order < ApplicationRecord
     completed: 'completed',
     cancelled: 'cancelled'
   }
-
-  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :order_status, presence: true
-
-  after_update :create_job
 
   private
 
