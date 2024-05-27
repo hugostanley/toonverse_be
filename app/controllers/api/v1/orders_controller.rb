@@ -6,10 +6,10 @@ class Api::V1::OrdersController < ApplicationController
 
   def index
     if @current_user
-      @orders = @current_user.orders.includes(:item).order(created_at: :desc)
+      @orders = @current_user.orders.order(created_at: :desc).includes(:item)
       render json: @orders.to_json(include: :item)
     else
-      @orders = Order.includes(:item).all.order(created_at: :desc)
+      @orders = Order.all.order(created_at: :desc).includes(:item)
       orders = @orders.map { |order| format_order(order) }
       render json: orders
     end
@@ -80,7 +80,9 @@ class Api::V1::OrdersController < ApplicationController
       picture_style: order.item&.picture_style,
       art_style: order.item&.art_style,
       notes: order.item&.notes,
-      reference_image: order.item.image.attached? ? url_for(order.item&.image) : ''
+      reference_image: order.item.image.attached? ? url_for(order.item&.image) : nil,
+      latest_artwork: order.job&.artworks.present? ? order.job.artworks.last.artwork_url : nil,
+      latest_artwork_revision: order.job&.artworks.present? ? order.job.artworks.last.revision_number : nil
     }
   end
 
