@@ -29,6 +29,8 @@ class Order < ApplicationRecord
   belongs_to :payment
   belongs_to :item
   belongs_to :user
+  belongs_to :workforce, optional: true
+  has_one :job, dependent: :destroy
 
   enum :order_status, {
     queued: 'queued',
@@ -40,4 +42,21 @@ class Order < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :order_status, presence: true
+
+  after_update :create_job
+
+  private
+
+  def create_job
+    return unless saved_change_to_order_status? && order_status == 'in_progress'
+
+    commission = amount * 0.7
+    transaction do
+      Job.create!(
+        order_id: id,
+        claimed_at: Time.current,
+        commission:
+      )
+    end
+  end
 end

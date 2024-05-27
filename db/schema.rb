@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_23_045049) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_24_155608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_045049) do
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 
+  create_table "jobs", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.datetime "claimed_at"
+    t.decimal "commission", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_jobs_on_order_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.bigint "payment_id", null: false
     t.bigint "item_id", null: false
@@ -88,9 +97,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_045049) do
     t.enum "order_status", default: "queued", null: false, enum_type: "order_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "workforce_id"
     t.index ["item_id"], name: "index_orders_on_item_id"
     t.index ["payment_id"], name: "index_orders_on_payment_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["workforce_id"], name: "index_orders_on_workforce_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -175,9 +186,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_045049) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "artist_profiles", "workforces"
   add_foreign_key "items", "users"
+  add_foreign_key "jobs", "orders"
   add_foreign_key "orders", "items"
   add_foreign_key "orders", "payments"
   add_foreign_key "orders", "users"
+  add_foreign_key "orders", "workforces"
   add_foreign_key "payments", "users"
   add_foreign_key "user_profiles", "users"
 end

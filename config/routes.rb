@@ -98,8 +98,8 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   mount_devise_token_auth_for 'Workforce', at: 'w_auth', skip: [:invitations]
 
-  devise_for :workforce, path: "w_auth", only: [:invitations],
-    controllers: { invitations: 'workforce/invitations' }
+  devise_for :workforce, path: 'w_auth', only: [:invitations],
+                         controllers: { invitations: 'workforce/invitations' }
 
   namespace :api do
     namespace :v1 do
@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       resources :items
       resources :payments
       resources :orders
+      resources :jobs, only: %i[index show]
 
       # Webhook URL
       post 'webhooks/paymongo', to: 'webhooks#create'

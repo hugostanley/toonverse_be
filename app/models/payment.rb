@@ -38,6 +38,8 @@ class Payment < ApplicationRecord
   after_create :associate_with_item
   after_update :create_order_if_paid
 
+  private
+
   def associate_with_item
     transaction do
       item_ids.each do |item_id|
@@ -58,6 +60,7 @@ class Payment < ApplicationRecord
           payment_id: id,
           user_id:,
           amount: item.amount,
+          workforce_id: nil,
           order_status: 'queued'
         )
       end
