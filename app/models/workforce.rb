@@ -56,6 +56,7 @@ class Workforce < ActiveRecord::Base
   has_one :artist_profile, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :jobs, through: :orders, dependent: :destroy
+  has_many :artworks, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create

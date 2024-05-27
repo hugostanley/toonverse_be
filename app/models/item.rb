@@ -28,6 +28,15 @@ class Item < ApplicationRecord
   belongs_to :payment, optional: true
   has_one :order
   has_one_attached :image
+
+  validates :image, attached: true, content_type: %i[png jpg jpeg],
+                    size: { less_than: 10.megabytes, message: 'File size is too large' }
+  validates :background_url, presence: true
+  validates :number_of_heads, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :art_style, presence: true
+  validates :picture_style, presence: true
+  validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+
   before_create :calculate_amount
 
   enum :art_style, {
@@ -45,11 +54,7 @@ class Item < ApplicationRecord
     left_joins(:payment).where('items.payment_id IS NULL OR payments.payment_status = ?', 'awaiting_payment_method')
   }
 
-  validates :background_url, presence: true
-  validates :number_of_heads, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :art_style, presence: true
-  validates :picture_style, presence: true
-  validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+
 
   private
 

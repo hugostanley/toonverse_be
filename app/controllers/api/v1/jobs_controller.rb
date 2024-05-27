@@ -4,9 +4,9 @@ class Api::V1::JobsController < ApplicationController
 
   def index
     @jobs = if current_workforce.admin?
-              Jobs.all.order(created_at: :desc).includes(:order, :workforce)
+              Jobs.all.order(updated_at: :desc).includes(:order, :workforce)
             else
-              current_workforce.jobs.order(created_at: :desc).includes(:order)
+              current_workforce.jobs.order(updated_at: :desc).includes(:order)
             end
 
     jobs = @jobs.map do |job|
