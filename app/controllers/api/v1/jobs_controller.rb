@@ -19,7 +19,9 @@ class Api::V1::JobsController < ApplicationController
         created_at: job.created_at,
         updated_at: job.updated_at,
         status: job.order.order_status,
-        email: job.order.workforce.email
+        email: job.order.workforce.email,
+        latest_artwork: job.artworks.present? ? job.artworks.last.artwork_url : nil,
+        latest_artwork_revision: job.artworks.present? ? job.artworks.last.revision_number : nil
       }
     end
 
