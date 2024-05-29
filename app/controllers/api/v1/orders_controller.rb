@@ -9,6 +9,10 @@ class Api::V1::OrdersController < ApplicationController
       @orders = @current_user.orders.order(created_at: :desc).includes(:item)
       orders = @orders.map { |order| format_order(order) }
       render json: orders.to_json(include: :item)
+    elsif @current_workforce.artist?
+      @orders = Order.where(order_status: 'queued').order(:created_at).includes(:item)
+      orders = @orders.map { |order| format_order(order) }
+      render json: orders
     else
       @orders = Order.all.order(created_at: :desc).includes(:item)
       orders = @orders.map { |order| format_order(order) }
