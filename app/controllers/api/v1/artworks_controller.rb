@@ -4,7 +4,7 @@ class Api::V1::ArtworksController < ApplicationController
 
   def index
     @artworks = if current_workforce.artist?
-                  current_workforce.artwork.order(created_at: :desc)
+                  current_workforce.artworks.order(created_at: :desc)
                 else
                   Artwork.all.order(created_at: :desc)
                 end

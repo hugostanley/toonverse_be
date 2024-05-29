@@ -39,6 +39,7 @@ class Order < ApplicationRecord
   validates :order_status, presence: true
 
   after_update :create_job
+  after_update :release_commission
 
   enum :order_status, {
     queued: 'queued',
@@ -53,12 +54,29 @@ class Order < ApplicationRecord
   def create_job
     return unless saved_change_to_order_status? && order_status == 'in_progress'
 
-    commission = amount * 0.7
     transaction do
+      commission = amount * 0.7
+
       Job.create!(
         order_id: id,
         claimed_at: Time.current,
         commission:
+      )
+    end
+  end
+
+  def release_commission
+    return unless saved_change_to_order_status? && order_status == 'completed'
+
+    job = self.job
+    workforce_id = self.workforce_id
+
+    return unless job && workforce_id
+
+    transaction do
+      artist = Workforce.find(workforce_id).artist_profile
+      artist.update!(
+        total_earnings: artist.total_earnings + job.commission
       )
     end
   end

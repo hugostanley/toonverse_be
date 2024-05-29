@@ -54,12 +54,10 @@ class Item < ApplicationRecord
     left_joins(:payment).where('items.payment_id IS NULL OR payments.payment_status = ?', 'awaiting_payment_method')
   }
 
-
-
   private
 
   def calculate_amount
-    self.class.transaction do
+    transaction do
       base_amount = 100
       self.amount = number_of_heads * case picture_style
                                       when 'full_body' then 1 * base_amount

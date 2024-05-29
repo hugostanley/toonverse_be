@@ -3,6 +3,22 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # SMTP SETUP FOR MAILER:
+  config.action_mailer.default_url_options = { host: 'production-url.com' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp-mail.outlook.com',
+    port: 587,
+    domain: 'localhost',
+    user_name: Rails.application.credentials.outlook_smtp.email,
+    password: Rails.application.credentials.outlook_smtp.password,
+    authentication: :login,
+    enable_starttls: true,
+    open_timeout: 10,
+    read_timeout: 10
+  }
+
   # Code is not reloaded between requests.
   config.enable_reloading = false
 

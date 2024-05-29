@@ -32,6 +32,10 @@ class Artwork < ApplicationRecord
   before_create :set_revision_number
   after_create_commit :set_artwork_url
 
+  # TODO
+  # re run the set artwork url
+  # after_update :set_artwork_url
+
   private
 
   def set_revision_number
