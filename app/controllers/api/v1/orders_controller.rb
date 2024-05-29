@@ -7,7 +7,8 @@ class Api::V1::OrdersController < ApplicationController
   def index
     if @current_user
       @orders = @current_user.orders.order(created_at: :desc).includes(:item)
-      render json: @orders.to_json(include: :item)
+      orders = @orders.map { |order| format_order(order) }
+      render json: orders.to_json(include: :item)
     else
       @orders = Order.all.order(:created_at).includes(:item)
       orders = @orders.map { |order| format_order(order) }
