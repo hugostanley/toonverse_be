@@ -14,7 +14,7 @@ class Api::V1::OrdersController < ApplicationController
       orders = @orders.map { |order| format_order(order) }
       render json: orders
     else
-      @orders = Order.all.order(created_at: :desc).includes(:item)
+      @orders = Order.all.order(:created_at).includes(:item)
       orders = @orders.map { |order| format_order(order) }
       render json: orders
     end

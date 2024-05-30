@@ -26,7 +26,7 @@ class ArtistProfile < ApplicationRecord
 
   validates :first_name, presence: true, format: { with: /\A[a-zA-Z\-. ]+\z/, message: 'can only contain letters, hyphens, periods, and spaces' }
   validates :last_name, presence: true, format: { with: /\A[a-zA-Z\-. ]+\z/, message: 'can only contain letters, hyphens, periods, and spaces' }
-  validates :mobile_number, format: { with: /\A[\d+\-]+\z/, message: 'can only contain numbers, hyphens, and plus signs'}
+  validates :mobile_number, format: { with: /\A\d{10}\z/, message: 'must contain exactly 10 digits following the PH country code (+63)'}
   validates :billing_address, presence: true
   validates :bio, length: { in: 0..120 }
 
