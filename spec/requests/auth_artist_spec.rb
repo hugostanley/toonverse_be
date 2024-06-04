@@ -39,6 +39,7 @@ RSpec.describe "Authenticate artist", type: :request do
         puts "Body: #{email.body}"
         puts "-------------end of mail--------------"
       end
+
       expect(response).to have_http_status(:created)
 
       expect(json_response["success"][0]).to eq("Workforce invited.")

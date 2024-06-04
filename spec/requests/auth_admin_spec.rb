@@ -8,7 +8,7 @@ RSpec.describe "Authenticate admin", type: :request do
 
   describe "Login admin" do
     scenario "Sends a post request to login admin" do
-      post "http://localhost:3000/w_auth/sign_in",
+      post workforce_session_url,
         params: { email: @admin.email, password: @admin.password }
       puts "RESPONSE BODY: #{response.body}"
 
@@ -24,7 +24,7 @@ RSpec.describe "Authenticate admin", type: :request do
 
   describe "Logout admin" do
     scenario "Sends a delete request to logout admin" do
-      post "http://localhost:3000/w_auth/sign_in",
+      post workforce_session_url, # "http://localhost:3000/w_auth/sign_in"
         params: { email: @admin.email, password: @admin.password }
       puts "RESPONSE HEADER: #{response.headers}"
       puts "RESPONSE BODY: #{response.body}"
@@ -33,7 +33,7 @@ RSpec.describe "Authenticate admin", type: :request do
       access_token = response.headers["access-token"]
       uid = response.headers["uid"]
 
-      delete "http://localhost:3000/w_auth/sign_out",
+      delete destroy_workforce_session_url, # "http://localhost:3000/w_auth/sign_out"
       # required headers:
         headers: {
           "uid" => uid,
