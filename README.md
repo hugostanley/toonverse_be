@@ -1,5 +1,5 @@
 # ToonVerse API
-A Rails API for [ToonVerse](https://toonverse.onrender.com). 
+A Rails API for [ToonVerse - ReactTs](https://github.com/hugostanley/toonverse_fe.git). 
 This is a collaboration project made by Jean Bejar, Cyril Cero, Louise Dungca, and Jewel Milagrosa of Avion School Batch 32.
 
 ## Dependencies / Gems
