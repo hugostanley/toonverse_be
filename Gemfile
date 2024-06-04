@@ -40,7 +40,6 @@ group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
-  gem 'letter_opener'
 end
 
 group :development do
@@ -49,6 +48,7 @@ group :development do
   gem 'annotate', git: 'https://github.com/ctran/annotate_models.git'
 end
 
+gem 'letter_opener'
 gem 'active_storage_validations'
 gem 'devise', '~> 4.9'
 gem 'devise_invitable', '~> 2.0'

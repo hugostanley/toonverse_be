@@ -1,7 +1,7 @@
-# bundle exec rspec spec/requests/auth_workforce_spec.rb
+# bundle exec rspec spec/requests/auth_admin_spec.rb
 require "rails_helper"
 
-RSpec.describe "Authenticate workforce", type: :request do
+RSpec.describe "Authenticate admin", type: :request do
   before do
     @admin = create(:workforce, :admin)
   end
@@ -29,9 +29,9 @@ RSpec.describe "Authenticate workforce", type: :request do
       puts "RESPONSE HEADER: #{response.headers}"
       puts "RESPONSE BODY: #{response.body}"
 
-      client = response.headers['client']
-      access_token = response.headers['access-token']
-      uid = response.headers['uid']
+      client = response.headers["client"]
+      access_token = response.headers["access-token"]
+      uid = response.headers["uid"]
 
       delete "http://localhost:3000/w_auth/sign_out",
       # required headers:
@@ -45,5 +45,4 @@ RSpec.describe "Authenticate workforce", type: :request do
       expect(json_response["success"]).to eq(true)
     end
   end
-
 end
