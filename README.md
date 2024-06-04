@@ -1,5 +1,6 @@
 # ToonVerse API
 A Rails API for [ToonVerse - ReactTs](https://github.com/hugostanley/toonverse_fe.git). 
+
 This is a collaboration project made by Jean Bejar, Cyril Cero, Louise Dungca, and Jewel Milagrosa of Avion School Batch 32.
 
 ## Dependencies / Gems
@@ -48,9 +49,9 @@ secret_key_base: generated_secret_key
 3. Start the application:
 ```bash
 $ bin/rails db:prepare
-$ bin/dev
+$ bin/rails s
 ```
-The application should now be accessible at http://localhost:3000 in your web browser.
+The application should now be accessible at http://localhost:3000 in your web browser. Keep the server up to access API on frontend development environment.
 
 ## Endpoints
 
