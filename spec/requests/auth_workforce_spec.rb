@@ -7,10 +7,6 @@ RSpec.describe "Authenticate workforce", type: :request do
     @admin = create(:workforce, :admin)
   end
 
-  def json_response
-    JSON.parse(response.body)
-  end
-
   scenario "Sends a post request to login admin" do
     post "http://localhost:3000/w_auth/sign_in",
     params: { email: @admin.email, password: @admin.password }
@@ -25,4 +21,3 @@ RSpec.describe "Authenticate workforce", type: :request do
     expect(json_response["data"]["role"]).to eq("admin")
   end
 end
-gi

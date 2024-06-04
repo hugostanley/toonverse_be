@@ -68,4 +68,8 @@ RSpec.configure do |config|
 
   # FACTORYBOT METHODS
   config.include FactoryBot::Syntax::Methods
+
+  # SPEC/SUPPORT HELPERS
+  Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |file| require file }
+  config.include JsonResponseHelper, type: :request
 end
