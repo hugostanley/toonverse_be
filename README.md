@@ -1,157 +1,72 @@
-# ToonVerse API
-A Rails API for [ToonVerse - ReactTs](https://github.com/hugostanley/toonverse_fe.git). 
+# Toonverse
 
-This is a collaboration project made by Jean Bejar, Cyril Cero, Louise Dungca, and Jewel Milagrosa of Avion School Batch 32.
+Toonverse is a platform for local artists who want to earn by drawing popular cartoon characters like Rick and Morty, Bob's Burgers, or creating custom portraits for clients. Clients can browse the catalog, select the art style they prefer, check out, and registered artists can claim the job. Clients can also request revisions if they are not satisfied with the artwork.
 
-## Dependencies / Gems
-- **PostgreSQL:** Database management system for storing user information and transaction history.
-- **Devise:** Flexible authentication solution for Rails.
-  - **Devise Invitable:** Adds support for sending invitations by email.
-- **Devise-Token-Auth:** Token based authentication for Rails JSON APIs. 
-- **Annotate:** Automatically adds schema information to models.
-- **Letter Opener:** Preview email in the browser instead of sending it.
+## Features
 
-Check the Gemfile and Gemfile.lock for the full list of gems and their versions.
+- User authentication and authorization
+- Profile management
 
-## Setup
-1. Fork and clone this repository.
-```bash
-$ git clone git@github.com:hugostanley/toonverse_be.git
-$ bundle install
+### Client Side
 
-```
+- Browse catalog of different art styles
+- Order custom portraits or popular cartoon characters
+- Track the status of orders (in progress, completed)
+- Request revisions
 
-2. Generate a new master.key and configure your credentials:
-```bash
-$ rails credentials:edit
-```
-```yaml
-# tmp/some_timestamp_and_id-credentials.yml
+### Artist Side
 
-outlook_smtp:
-  email: email@outlook.com
-  password: password
+- Job pool to claim available orders
+- Track the status of claimed job orders
+- Track earnings and payment status
 
-development:
-  frontend_base_url: http://localhost:5173
+### Admin Side
 
-production:
-  frontend_base_url: https://your-production-url.com
+- Track all job orders entering the pool
+- Invite artists to register on the app
+- Manage users and job orders
 
-# aws:
-#   access_key_id: some_generated_id
-#   secret_access_key: some_generated_key
+## Tech Stack
 
-# Used as the base secret for all MessageVerifiers in Rails, including the one protecting cookies.
-secret_key_base: generated_secret_key
-```
+- Backend: Ruby on Rails
+- Frontend: React with TypeScript
+- Database: PostgreSQL
 
-3. Start the application:
-```bash
-$ bin/rails db:prepare
-$ bin/rails s
-```
-The application should now be accessible at http://localhost:3000 in your web browser. Keep the server up to access API on frontend development environment.
+## Getting Started
 
-## Endpoints
+### Installation
 
-### Authentication
+- Clone the repository
+  'git@github.com:hugostanley/toonverse_fe.git
+  git@github.com:hugostanley/toonverse_be.git'
 
-- **Sign In**
-  - `POST /auth/sign_in`
-- **Sign Out**
-  - `DELETE /auth/sign_out`
-- **Password**
-  - `POST /auth/password`
-  - `PUT /auth/password`
-- **Registration**
-  - `POST /auth`
-  - `PUT /auth`
-  - `DELETE /auth`
-- **Token Validation**
-  - `GET /auth/validate_token`
+- Install the backend dependencies
+  'bundle install'
 
-### Workforce Authentication
+- Install the frontend dependencies
+  'npm install'
 
-- **Sign In**
-  - `POST /w_auth/sign_in`
-- **Sign Out**
-  - `DELETE /w_auth/sign_out`
-- **Password**
-  - `POST /w_auth/password`
-  - `PUT /w_auth/password`
-- **Registration**
-  - `POST /w_auth`
-  - `PUT /w_auth`
-  - `DELETE /w_auth`
-- **Token Validation**
-  - `GET /w_auth/validate_token`
+- Set up the database
+  'rails db:setup'
 
-### Workforce Invitations
+- Start the Rails server
+  'rails server'
 
-- **Accept Invitation**
-  - `GET /w_auth/invitation/accept`
-- **Remove Invitation**
-  - `GET /w_auth/invitation/remove`
-- **New Invitation**
-  - `GET /w_auth/invitation/new`
-- **Update Invitation**
-  - `POST /w_auth/invitation`
-  - `PUT /w_auth/invitation`
+- Start the React development server
+  Open a new terminal and run:
+  'npm run dev'
 
-### API Endpoints
+- Access the application
+  Open your web browser and go to `http://localhost:3000`.
 
-- **User Profiles**
-  - `GET    /api/v1/user_profiles`
-  - `POST   /api/v1/user_profiles`
-  - `GET    /api/v1/user_profiles/:id`
-  - `PATCH  /api/v1/user_profiles/:id`
-  - `PUT    /api/v1/user_profiles/:id`
-  - `DELETE /api/v1/user_profiles/:id`
-  
-- **Artist Profiles**
-  - `GET    /api/v1/artist_profiles`
-  - `POST   /api/v1/artist_profiles`
-  - `GET    /api/v1/artist_profiles/:id`
-  - `PATCH  /api/v1/artist_profiles/:id`
-  - `PUT    /api/v1/artist_profiles/:id`
-  - `DELETE /api/v1/artist_profiles/:id`
-  
-- **Items**
-  - `GET    /api/v1/items`
-  - `POST   /api/v1/items`
-  - `GET    /api/v1/items/:id`
-  - `PATCH  /api/v1/items/:id`
-  - `PUT    /api/v1/items/:id`
-  - `DELETE /api/v1/items/:id`
-  
-- **Payments**
-  - `GET    /api/v1/payments`
-  - `POST   /api/v1/payments`
-  - `GET    /api/v1/payments/:id`
-  - `PATCH  /api/v1/payments/:id`
-  - `PUT    /api/v1/payments/:id`
-  - `DELETE /api/v1/payments/:id`
-  
-- **Orders**
-  - `GET    /api/v1/orders`
-  - `POST   /api/v1/orders`
-  - `GET    /api/v1/orders/:id`
-  - `PATCH  /api/v1/orders/:id`
-  - `PUT    /api/v1/orders/:id`
-  - `DELETE /api/v1/orders/:id`
-  
-- **Jobs**
-  - `GET    /api/v1/jobs`
-  - `GET    /api/v1/jobs/:id`
-  
-- **Artworks**
-  - `GET    /api/v1/artworks`
-  - `POST   /api/v1/artworks`
-  - `GET    /api/v1/artworks/:id`
-  - `PATCH  /api/v1/artworks/:id`
-  - `PUT    /api/v1/artworks/:id`
-  - `DELETE /api/v1/artworks/:id`
-  
-- **Webhooks (Paymongo)**
-  - `POST   /api/v1/webhooks/paymongo`
+## Contributing
+
+- Fork the repository
+- Create a new branch (git checkout -b feature/YourFeature)
+- Commit your changes (git commit -am 'Add some feature')
+- Push to the branch (git push origin feature/YourFeature)
+- Create a new Pull Request
+
+## Contact
+
+If you have any questions, feel free to reach out to us at toonverse2024@outlook.com. Enjoy creating and commissioning amazing artworks with Toonverse!
