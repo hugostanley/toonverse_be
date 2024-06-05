@@ -39,11 +39,7 @@ RSpec.describe "User profile restful API", type: :request do
           "authorization" => @authorization
         }
       puts "RESPONSE BODY: #{response.body}"
-
-      # check if response is ok/successful
       expect(response).to have_http_status(:ok)
-
-      # check if response body has admin email and role: admin
       expect(json_response["user_profile"]["first_name"]).to eq(first_name)
       expect(json_response["user_profile"]["last_name"]).to eq(last_name)
       expect(json_response["user_profile"]["billing_address"]).to eq(billing_address)
@@ -85,10 +81,7 @@ RSpec.describe "User profile restful API", type: :request do
           "authorization" => @authorization
         }
 
-      # check if response is ok/successful
       expect(response).to have_http_status(:ok)
-
-      # check if response body has admin email and role: admin
       expect(json_response["user_profile"]["id"]).to eq(profile_id)
     end
   end
@@ -182,7 +175,6 @@ RSpec.describe "User profile restful API", type: :request do
         }
 
       puts "RESPONSE BODY: #{response.body}"
-      # check if response is ok/successful
       expect(response).to have_http_status(:ok)
       expect(json_response["status"]).to eq("success")
     end
