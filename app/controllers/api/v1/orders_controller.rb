@@ -63,6 +63,7 @@ class Api::V1::OrdersController < ApplicationController
       :order_status,
       :checkout_session_id,
       :workforce_id,
+      :remarks,
       item_ids: []
     )
   end
@@ -76,6 +77,7 @@ class Api::V1::OrdersController < ApplicationController
       order_status: order.order_status,
       workforce_id: order.workforce_id,
       created_at: order.created_at,
+      remarks: order.remarks,
       background_url: order.item&.background_url,
       number_of_heads: order.item&.number_of_heads,
       picture_style: order.item&.picture_style,
