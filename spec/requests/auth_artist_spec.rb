@@ -4,7 +4,7 @@ require "rails_helper"
 RSpec.describe "Authenticate artist", type: :request do
   before do
     @admin = create(:workforce, :admin)
-    post "http://localhost:3000/w_auth/sign_in",
+    post workforce_session_url,
       params: { email: @admin.email, password: @admin.password }
 
     @client = response.headers["client"]
