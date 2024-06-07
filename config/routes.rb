@@ -118,6 +118,7 @@ Rails.application.routes.draw do
       resources :orders
       resources :jobs, only: %i[index show]
       resources :artworks
+      get 'health_check', to: 'health_checks#index'
 
       # Webhook URL
       post 'webhooks/paymongo', to: 'webhooks#create'
