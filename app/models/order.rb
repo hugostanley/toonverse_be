@@ -56,12 +56,13 @@ class Order < ApplicationRecord
 
     transaction do
       commission = amount * 0.7
-
-      Job.create!(
-        order_id: id,
-        claimed_at: Time.current,
-        commission:
-      )
+      unless job
+        Job.create!(
+          order_id: id,
+          claimed_at: Time.current,
+          commission:
+        )
+      end
     end
   end
 
